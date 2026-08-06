@@ -78,7 +78,7 @@ export function HiddenRealms() {
                   src={r.src}
                   alt={r.name}
                   loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2600ms] group-hover:scale-115"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2600ms] group-hover:scale-[1.15]"
                   style={{ filter: "brightness(0.72) saturate(1.05)" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.92)] via-transparent to-transparent" />
