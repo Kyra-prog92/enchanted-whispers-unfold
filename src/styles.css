@@ -4,6 +4,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-body: "Cormorant Garamond", serif;
+  --font-script: "Great Vibes", cursive;
+  --color-midnight: oklch(0.18 0.07 264);
+  --color-royal: oklch(0.32 0.13 300);
+  --color-wine: oklch(0.32 0.13 20);
+  --color-gold: oklch(0.82 0.13 85);
+  --color-rosegold: oklch(0.78 0.09 40);
+  --color-ivory: oklch(0.96 0.02 90);
+  --color-moonlight: oklch(0.98 0.01 250);
+  --color-amber: oklch(0.85 0.14 70);
+  --color-emerald: oklch(0.68 0.13 165);
+}
+
 /*
  * Design system definition.
  *
