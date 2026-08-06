@@ -13,7 +13,7 @@ const WISH = [
   "let it be that we never stop choosing one another.",
 ];
 
-export function WishTree({ onEnter }: { onEnter?: () => void }) {
+export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
   const [released, setReleased] = useState(0);
 
   return (

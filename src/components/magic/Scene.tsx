@@ -23,7 +23,7 @@ export function Scene({
   particleCount?: number;
   rays?: boolean;
   children: ReactNode;
-  onEnter?: () => void;
+  onEnter?: (() => void) | undefined;
   className?: string;
 }) {
   const ref = useRef<HTMLElement | null>(null);

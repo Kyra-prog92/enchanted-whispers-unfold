@@ -31,7 +31,7 @@ const MEMORIES = [
   },
 ];
 
-export function MemoryGarden({ onEnter }: { onEnter?: () => void }) {
+export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }) {
   const [active, setActive] = useState<number | null>(null);
 
   return (

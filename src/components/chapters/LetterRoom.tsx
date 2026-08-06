@@ -13,7 +13,7 @@ const LETTER = [
   "Welcome home.",
 ];
 
-export function LetterRoom({ onEnter }: { onEnter?: () => void }) {
+export function LetterRoom({ onEnter }: { onEnter?: (() => void) | undefined }) {
   const [open, setOpen] = useState(false);
   const [word, setWord] = useState("");
   const [error, setError] = useState(false);

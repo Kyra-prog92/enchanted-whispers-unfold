@@ -12,7 +12,7 @@ const PROMISE = [
   "And when the stars fill the night above us, I will still look for your hand first.",
 ];
 
-export function PromiseChamber({ onEnter }: { onEnter?: () => void }) {
+export function PromiseChamber({ onEnter }: { onEnter?: (() => void) | undefined }) {
   return (
     <Scene
       id="promise"
