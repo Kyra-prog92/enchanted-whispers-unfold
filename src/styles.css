@@ -206,6 +206,7 @@
 
 @utility artifact-btn {
   position: relative;
+  white-space: nowrap;
   overflow: hidden;
   font-family: var(--font-display);
   letter-spacing: 0.28em;
