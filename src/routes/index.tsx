@@ -5,8 +5,8 @@ import { Scene } from "@/components/magic/Scene";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
 import { Reveal } from "@/components/magic/Reveal";
 import { CursorMagic } from "@/components/magic/CursorMagic";
-import { ChapterNav } from "@/components/magic/ChapterNav";
-import { useOrchestra } from "@/components/magic/useOrchestra";
+import { ChapterNav, CHAPTERS } from "@/components/magic/ChapterNav";
+import { useSoundtrack } from "@/components/magic/useSoundtrack";
 import { LetterRoom } from "@/components/chapters/LetterRoom";
 import { MemoryGarden } from "@/components/chapters/MemoryGarden";
 import { WishTree } from "@/components/chapters/WishTree";
@@ -33,10 +33,20 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const NEXT_LABEL = [
+  "Enter the Letter Room",
+  "Walk into the Memory Garden",
+  "Follow us to the Wishing Tree",
+  "Open the Hidden Realms",
+  "Step into the Promise Chamber",
+  "Rise into Forever",
+  "Begin our story again",
+];
+
 function Index() {
   const [entered, setEntered] = useState(false);
-  const { enabled, toggle, setChapter } = useOrchestra();
-  const [current, setCurrent] = useState(0);
+  const { enabled, toggle } = useSoundtrack();
+  const [step, setStep] = useState(0);
 
   const enter = useCallback(() => {
     setEntered(true);
@@ -50,19 +60,46 @@ function Index() {
     };
   }, [entered]);
 
-  const arrive = useCallback(
-    (i: number) => () => {
-      setCurrent(i);
-      setChapter(Math.min(i, 5));
-    },
-    [setChapter],
-  );
+  const go = useCallback((i: number) => {
+    setStep(((i % CHAPTERS.length) + CHAPTERS.length) % CHAPTERS.length);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const chapters = [
+    <Scene
+      key="gates"
+      id="gates"
+      image={gates}
+      alt="The two lovers hand in hand before the enchanted castle gates opening in golden light"
+      particles="fireflies"
+      particleCount={70}
+    >
+      <ChapterTitle
+        chapter="Chapter I"
+        title="The Enchanted Gates"
+        subtitle="moonlight, fog, and roses that waited for you"
+      />
+      <Reveal delay={260} className="mx-auto mt-12 max-w-2xl text-center">
+        <p className="text-xl leading-relaxed text-ivory/90 italic sm:text-2xl">
+          The lanterns lean toward us. The fog parts like a curtain. Somewhere beyond these gates, a
+          library keeps a letter that has been waiting since before the stars learned to shine.
+        </p>
+      </Reveal>
+    </Scene>,
+    <LetterRoom key="letter" onEnter={undefined} />,
+    <MemoryGarden key="garden" onEnter={undefined} />,
+    <WishTree key="wish" onEnter={undefined} />,
+    <HiddenRealms key="realms" />,
+    <PromiseChamber key="promise" onEnter={undefined} />,
+    <Forever key="forever" onEnter={undefined} />,
+  ];
 
   return (
     <main className="relative">
       <CursorMagic />
       {!entered ? <Intro onEnter={enter} /> : null}
 
+      {entered ? (
       <button
         type="button"
         onClick={toggle}
@@ -79,42 +116,40 @@ function Index() {
         />
         {enabled ? "Music On" : "Music Off"}
       </button>
+      ) : null}
 
-      <ChapterNav current={current} />
+      {entered ? <ChapterNav current={step} onJump={go} /> : null}
 
-      <Scene
-        id="gates"
-        image={gates}
-        alt="Giant enchanted castle gates opening in golden light"
-        particles="fireflies"
-        particleCount={70}
-        onEnter={arrive(0)}
-      >
-        <ChapterTitle
-          chapter="Chapter I"
-          title="The Enchanted Gates"
-          subtitle="moonlight, fog, and roses that waited for you"
-        />
-        <Reveal delay={260} className="mx-auto mt-12 max-w-2xl text-center">
-          <p className="text-xl leading-relaxed text-ivory/90 italic sm:text-2xl">
-            The lanterns lean toward you. The fog parts like a curtain. Somewhere beyond these
-            gates, a library keeps a letter that has been waiting since before the stars learned to
-            shine.
-          </p>
-          <a href="#letter" className="artifact-btn mt-12 inline-block px-9 py-4 text-[0.65rem]">
-            Begin the Journey
-          </a>
-        </Reveal>
-      </Scene>
+      <div key={step} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
+        {chapters[step]}
+      </div>
 
-      <LetterRoom onEnter={arrive(1)} />
-      <MemoryGarden onEnter={arrive(2)} />
-      <WishTree onEnter={arrive(3)} />
-      <HiddenRealms />
-      <PromiseChamber onEnter={arrive(5)} />
-      <Forever onEnter={arrive(6)} />
+      {/* Chapter transport — the journey advances by choice, never by scrolling. */}
+      {entered ? (
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-3 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.92)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-6 pt-16 pb-7">
+        <button
+          type="button"
+          onClick={() => go(step + 1)}
+          className="artifact-btn pointer-events-auto px-8 py-4 text-[0.62rem]"
+        >
+          {NEXT_LABEL[step]}
+        </button>
+        <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.4em] text-muted-foreground/70 uppercase">
+          <button
+            type="button"
+            onClick={() => go(step - 1)}
+            className="transition-colors hover:text-primary"
+          >
+            ← Back
+          </button>
+          <span className="text-primary/70">
+            {step + 1} / {CHAPTERS.length}
+          </span>
+        </div>
+      </div>
+      ) : null}
 
-      <footer className="relative border-t border-primary/15 py-16 text-center">
+      <footer className="relative border-t border-primary/15 py-16 pb-40 text-center">
         <p className="script-title text-2xl">Forever Begins Here</p>
         <p className="mt-4 text-[0.6rem] tracking-[0.45em] text-muted-foreground/60 uppercase">
           written beneath an infinite sky
