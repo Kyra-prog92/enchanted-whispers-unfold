@@ -1,4 +1,4 @@
-const CHAPTERS = [
+export const CHAPTERS = [
   { id: "gates", label: "I · Gates" },
   { id: "letter", label: "II · Letter" },
   { id: "garden", label: "III · Garden" },
@@ -9,7 +9,13 @@ const CHAPTERS = [
 ];
 
 /** Floating chapter compass + memory clock whose hand advances with the journey. */
-export function ChapterNav({ current }: { current: number }) {
+export function ChapterNav({
+  current,
+  onJump,
+}: {
+  current: number;
+  onJump: (index: number) => void;
+}) {
   return (
     <>
       <nav
@@ -17,9 +23,11 @@ export function ChapterNav({ current }: { current: number }) {
         className="fixed top-1/2 right-4 z-50 hidden -translate-y-1/2 flex-col items-end gap-3 lg:flex"
       >
         {CHAPTERS.map((c, i) => (
-          <a
+          <button
             key={c.id}
-            href={`#${c.id}`}
+            type="button"
+            onClick={() => onJump(i)}
+            aria-current={i === current ? "step" : undefined}
             className="group flex items-center gap-3 text-[0.6rem] tracking-[0.35em] uppercase"
           >
             <span
@@ -36,7 +44,7 @@ export function ChapterNav({ current }: { current: number }) {
                 boxShadow: i === current ? "var(--glow-gold)" : "none",
               }}
             />
-          </a>
+          </button>
         ))}
       </nav>
 
