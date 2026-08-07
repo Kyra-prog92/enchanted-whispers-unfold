@@ -99,6 +99,7 @@ function Index() {
       <CursorMagic />
       {!entered ? <Intro onEnter={enter} /> : null}
 
+      {entered ? (
       <button
         type="button"
         onClick={toggle}
@@ -115,14 +116,16 @@ function Index() {
         />
         {enabled ? "Music On" : "Music Off"}
       </button>
+      ) : null}
 
-      <ChapterNav current={step} onJump={go} />
+      {entered ? <ChapterNav current={step} onJump={go} /> : null}
 
       <div key={step} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
         {chapters[step]}
       </div>
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
+      {entered ? (
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-3 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.92)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-6 pt-16 pb-7">
         <button
           type="button"
@@ -144,6 +147,7 @@ function Index() {
           </span>
         </div>
       </div>
+      ) : null}
 
       <footer className="relative border-t border-primary/15 py-16 pb-40 text-center">
         <p className="script-title text-2xl">Forever Begins Here</p>
