@@ -58,7 +58,11 @@ export function LetterRoom({ onEnter }: { onEnter?: (() => void) | undefined }) 
                 aria-label="Password to unlock the letter"
                 className="w-full border-b border-primary/40 bg-transparent px-2 py-3 text-center font-body text-lg tracking-[0.2em] text-foreground outline-none placeholder:text-muted-foreground/50 focus:border-primary"
               />
-              <button type="button" onClick={unlock} className="artifact-btn w-full px-8 py-3 text-[0.65rem] sm:w-auto">
+              <button
+                type="button"
+                onClick={unlock}
+                className="artifact-btn w-full shrink-0 px-8 py-3 text-[0.65rem] whitespace-nowrap sm:w-auto"
+              >
                 Break the Seal
               </button>
             </div>
