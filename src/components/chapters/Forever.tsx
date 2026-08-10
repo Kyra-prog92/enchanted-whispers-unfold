@@ -27,7 +27,7 @@ export function Forever({ onEnter }: { onEnter?: (() => void) | undefined }) {
 
   return (
     <section id="forever" ref={ref} className="relative min-h-screen">
-      <div className="vignette relative h-screen overflow-hidden">
+      <div className="vignette relative h-dvh overflow-hidden">
         <img
           src={sky}
           alt="The two lovers embracing on a cloud-top ledge beneath an enormous moon and endless constellations"
@@ -39,13 +39,13 @@ export function Forever({ onEnter }: { onEnter?: (() => void) | undefined }) {
             filter: `brightness(${0.85 + p * 0.2}) saturate(1.05)`,
           }}
         />
-        <SkyCanvas density={1.7} />
-        <ParticleField variant="petals" count={40} />
+        <SkyCanvas density={1.2} />
+        <ParticleField variant="petals" count={28} />
 
         <svg
           viewBox="0 0 400 200"
           aria-hidden
-          className="absolute top-[10%] left-1/2 w-[70vw] max-w-2xl -translate-x-1/2"
+          className="absolute top-[8%] left-1/2 w-[62vw] max-w-md -translate-x-1/2"
           style={{ opacity: Math.min(Math.max((p - 0.1) * 3, 0), 1) }}
         >
           {[80, 300].map((cx, k) => (
@@ -63,16 +63,16 @@ export function Forever({ onEnter }: { onEnter?: (() => void) | undefined }) {
         </svg>
 
         <div
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 pb-28 text-center transition-opacity duration-[2000ms]"
+          className="absolute inset-0 flex flex-col items-center justify-center px-5 pb-32 text-center transition-opacity duration-[2000ms]"
           style={{ opacity: Math.min(Math.max((p - 0.3) * 3, 0), 1) }}
         >
-          <p className="script-title text-3xl sm:text-5xl">Our story never truly ends…</p>
-          <h2 className="text-gold mt-8 text-3xl leading-tight tracking-[0.16em] uppercase sm:text-5xl">
+          <p className="script-title text-2xl sm:text-4xl">Our story never truly ends…</p>
+          <h2 className="text-gold mt-5 text-xl leading-tight tracking-[0.14em] uppercase sm:text-3xl">
             Some stories end.
             <br />
             Ours simply found forever.
           </h2>
-          <p className="script-title mt-8 text-4xl sm:text-5xl">Forever Begins Here</p>
+          <p className="script-title mt-5 text-3xl sm:text-4xl">Forever Begins Here</p>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 export type FieldVariant = "fireflies" | "petals" | "dust" | "snow" | "leaves" | "embers";
 
@@ -34,13 +35,16 @@ export function ParticleField({
   className?: string;
 }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
+  const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
     const canvas = ref.current;
-    if (!canvas) return;
+    if (!canvas || reduced) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Keep mobile devices light: fewer particles on small screens.
+    const total = Math.round(window.innerWidth < 640 ? count * 0.5 : count);
     const colors = PALETTE[variant];
     let w = 0;
     let h = 0;
@@ -72,7 +76,7 @@ export function ParticleField({
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ps = Array.from({ length: count }, spawn);
+      ps = Array.from({ length: total }, spawn);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -129,7 +133,9 @@ export function ParticleField({
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, [variant, count]);
+  }, [variant, count, reduced]);
+
+  if (reduced) return null;
 
   return (
     <canvas

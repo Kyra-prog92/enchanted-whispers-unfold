@@ -22,21 +22,21 @@ export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
       image={tree}
       alt="A colossal glowing wishing tree with golden leaves"
       particles="leaves"
-      particleCount={54}
+      particleCount={40}
       onEnter={onEnter}
     >
       <ChapterTitle chapter="Chapter IV" title="The Wishing Tree" subtitle="ask, and the leaves listen" />
 
-      <Reveal delay={220} className="mx-auto mt-14 max-w-2xl">
+      <Reveal delay={220} className="mx-auto mt-7 max-w-xl">
         <div
-          className="glass-panel rounded-sm px-10 py-12 text-center"
+          className="glass-panel rounded-sm px-6 py-7 text-center sm:px-10 sm:py-9"
           style={{ animation: "lantern-swing 12s ease-in-out infinite alternate" }}
         >
           {WISH.map((line, i) => (
             <p
               key={line}
-              className="font-body text-xl leading-relaxed text-ivory/90 sm:text-2xl"
-              style={{ animation: `ink-write 2.2s ease-out ${0.4 + i * 0.9}s both`, marginTop: i ? "1rem" : 0 }}
+              className="font-body text-base leading-relaxed text-ivory/90 sm:text-lg"
+              style={{ animation: `ink-write 1.6s ease-out ${0.3 + i * 0.6}s both`, marginTop: i ? "0.6rem" : 0 }}
             >
               {line}
             </p>
@@ -44,15 +44,15 @@ export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
         </div>
       </Reveal>
 
-      <div className="mt-12 text-center">
+      <div className="mt-6 text-center">
         <button
           type="button"
           onClick={() => setReleased((n) => n + 1)}
-          className="artifact-btn px-9 py-4 text-[0.65rem]"
+          className="artifact-btn px-8 py-3.5 text-[0.6rem]"
         >
           Touch the Tree
         </button>
-        <p className="mt-5 text-xs tracking-[0.3em] text-muted-foreground/70 uppercase">
+        <p aria-live="polite" className="mt-4 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
           {released === 0
             ? "and release the golden birds"
             : `${released * 7} golden birds carried the wish into the sky`}

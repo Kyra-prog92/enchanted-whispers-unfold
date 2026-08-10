@@ -6,6 +6,7 @@ export const CHAPTERS = [
   { id: "realms", label: "· Realms" },
   { id: "promise", label: "V · Promise" },
   { id: "forever", label: "VI · Forever" },
+  { id: "behind", label: "· Behind" },
 ];
 
 /** Floating chapter compass + memory clock whose hand advances with the journey. */
@@ -55,7 +56,7 @@ export function ChapterNav({
         <span className="absolute h-16 w-16 rounded-full border border-primary/30" />
         <span
           className="absolute h-7 w-px origin-bottom bg-primary/90 transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-          style={{ bottom: "50%", transform: `rotate(${current * 51}deg)` }}
+          style={{ bottom: "50%", transform: `rotate(${current * 45}deg)` }}
         />
         <span className="absolute bottom-2 text-[0.5rem] tracking-[0.3em] text-muted-foreground/70 uppercase">
           memory
