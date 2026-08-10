@@ -13,6 +13,7 @@ import { WishTree } from "@/components/chapters/WishTree";
 import { HiddenRealms } from "@/components/chapters/HiddenRealms";
 import { PromiseChamber } from "@/components/chapters/PromiseChamber";
 import { Forever } from "@/components/chapters/Forever";
+import { BehindTheMagic } from "@/components/chapters/BehindTheMagic";
 import gates from "@/assets/gates.jpg";
 
 const TITLE = "Forever Begins Here — An Enchanted Cinematic Love Story";
@@ -40,6 +41,7 @@ const NEXT_LABEL = [
   "Open the Hidden Realms",
   "Step into the Promise Chamber",
   "Rise into Forever",
+  "See Behind the Magic",
   "Begin our story again",
 ];
 
@@ -65,6 +67,19 @@ function Index() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  // Keyboard navigation: arrows walk the journey once the kingdom is entered.
+  useEffect(() => {
+    if (!entered) return;
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA")) return;
+      if (e.key === "ArrowRight") go(step + 1);
+      if (e.key === "ArrowLeft") go(step - 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [entered, go, step]);
+
   const chapters = [
     <Scene
       key="gates"
@@ -72,15 +87,15 @@ function Index() {
       image={gates}
       alt="The two lovers hand in hand before the enchanted castle gates opening in golden light"
       particles="fireflies"
-      particleCount={70}
+      particleCount={48}
     >
       <ChapterTitle
         chapter="Chapter I"
         title="The Enchanted Gates"
         subtitle="moonlight, fog, and roses that waited for you"
       />
-      <Reveal delay={260} className="mx-auto mt-12 max-w-2xl text-center">
-        <p className="text-xl leading-relaxed text-ivory/90 italic sm:text-2xl">
+      <Reveal delay={260} className="mx-auto mt-7 max-w-xl text-center">
+        <p className="text-base leading-relaxed text-ivory/90 italic sm:text-xl">
           The lanterns lean toward us. The fog parts like a curtain. Somewhere beyond these gates, a
           library keeps a letter that has been waiting since before the stars learned to shine.
         </p>
@@ -92,6 +107,7 @@ function Index() {
     <HiddenRealms key="realms" />,
     <PromiseChamber key="promise" onEnter={undefined} />,
     <Forever key="forever" onEnter={undefined} />,
+    <BehindTheMagic key="behind" />,
   ];
 
   return (
@@ -104,7 +120,8 @@ function Index() {
         type="button"
         onClick={toggle}
         aria-pressed={enabled}
-        className="glass-panel fixed top-5 right-5 z-[75] flex items-center gap-3 rounded-full px-5 py-3 text-[0.6rem] tracking-[0.32em] uppercase transition-transform duration-500 hover:-translate-y-0.5"
+        aria-label={enabled ? "Mute the soundtrack" : "Play the soundtrack"}
+        className="glass-panel fixed top-4 right-4 z-[75] flex min-h-11 items-center gap-3 rounded-full px-4 py-3 text-[0.55rem] tracking-[0.3em] uppercase transition-transform duration-500 hover:-translate-y-0.5 sm:top-5 sm:right-5 sm:px-5 sm:text-[0.6rem]"
       >
         <span
           className="h-2 w-2 rounded-full"
@@ -126,32 +143,32 @@ function Index() {
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
       {entered ? (
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-3 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.92)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-6 pt-16 pb-7">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-2 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.94)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-5 pt-12 pb-5 sm:gap-3 sm:pt-16 sm:pb-7">
         <button
           type="button"
           onClick={() => go(step + 1)}
-          className="artifact-btn pointer-events-auto px-8 py-4 text-[0.62rem]"
+          className="artifact-btn pointer-events-auto max-w-[92vw] overflow-hidden px-6 py-3.5 text-[0.55rem] sm:px-8 sm:py-4 sm:text-[0.62rem]"
         >
           {NEXT_LABEL[step]}
         </button>
-        <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.4em] text-muted-foreground/70 uppercase">
+        <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase">
           <button
             type="button"
             onClick={() => go(step - 1)}
-            className="transition-colors hover:text-primary"
+            className="min-h-11 px-2 transition-colors hover:text-primary"
           >
             ← Back
           </button>
-          <span className="text-primary/70">
+          <span className="text-primary">
             {step + 1} / {CHAPTERS.length}
           </span>
         </div>
       </div>
       ) : null}
 
-      <footer className="relative border-t border-primary/15 py-16 pb-40 text-center">
-        <p className="script-title text-2xl">Forever Begins Here</p>
-        <p className="mt-4 text-[0.6rem] tracking-[0.45em] text-muted-foreground/60 uppercase">
+      <footer className="relative border-t border-primary/15 py-10 pb-36 text-center">
+        <p className="script-title text-xl">Forever Begins Here</p>
+        <p className="mt-3 text-[0.55rem] tracking-[0.4em] text-muted-foreground uppercase">
           written beneath an infinite sky
         </p>
       </footer>
