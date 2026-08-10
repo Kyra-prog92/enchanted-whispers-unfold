@@ -19,16 +19,16 @@ export function PromiseChamber({ onEnter }: { onEnter?: (() => void) | undefined
       image={chamber}
       alt="A royal cathedral chamber with candles, falling rose petals and two golden rings"
       particles="petals"
-      particleCount={46}
+      particleCount={34}
       onEnter={onEnter}
     >
       <ChapterTitle chapter="Chapter V" title="The Promise Chamber" subtitle="vows the candles will keep" />
 
-      <Reveal delay={160} className="mt-14 flex justify-center gap-10">
+      <Reveal delay={160} className="mt-7 flex justify-center gap-8">
         {[0, 1].map((i) => (
           <span
             key={i}
-            className="block h-24 w-24 rounded-full border-[6px] border-primary/80"
+            className="block h-14 w-14 rounded-full border-4 border-primary/80 sm:h-16 sm:w-16"
             style={{
               boxShadow: "var(--glow-gold), inset 0 0 20px oklch(0.85 0.14 85 / 0.5)",
               animation: `ring-spin ${14 + i * 4}s linear infinite`,
@@ -38,19 +38,19 @@ export function PromiseChamber({ onEnter }: { onEnter?: (() => void) | undefined
         ))}
       </Reveal>
 
-      <div className="mx-auto mt-14 max-w-3xl space-y-6 text-center">
+      <div className="mx-auto mt-7 max-w-2xl space-y-3 text-center">
         {PROMISE.map((line, i) => (
-          <Reveal key={line} delay={i * 240}>
+          <Reveal key={line} delay={i * 180}>
             <p
-              className="font-body text-xl leading-relaxed text-ivory/95 sm:text-2xl"
+              className="font-body text-base leading-relaxed text-ivory/95 sm:text-lg"
               style={{ textShadow: "0 0 30px oklch(0.82 0.13 85 / 0.35)" }}
             >
               {line}
             </p>
           </Reveal>
         ))}
-        <Reveal delay={PROMISE.length * 240}>
-          <p className="text-gold font-display mt-10 text-sm tracking-[0.6em] uppercase">
+        <Reveal delay={PROMISE.length * 180}>
+          <p className="text-gold font-display mt-6 text-[0.65rem] tracking-[0.5em] uppercase sm:text-xs">
             Today · Tomorrow · Always
           </p>
         </Reveal>
