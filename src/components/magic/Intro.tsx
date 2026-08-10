@@ -71,7 +71,7 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
           style={{ opacity: beat >= 4 ? 1 : 0.15 }}
         />
       </div>
-      <ParticleField variant="fireflies" count={44} />
+      <ParticleField variant="fireflies" count={32} />
       <div
         className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center transition-all duration-[2500ms]"
         style={{
@@ -80,19 +80,19 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
           pointerEvents: beat >= 4 ? "auto" : "none",
         }}
       >
-        <p className="font-display text-[0.6rem] tracking-[0.7em] text-primary/70 uppercase">
+        <p className="font-display text-[0.55rem] tracking-[0.55em] text-primary uppercase sm:tracking-[0.7em]">
           An enchanted kingdom
         </p>
-        <h1 className="text-gold mt-6 text-4xl leading-tight tracking-[0.2em] uppercase sm:text-6xl md:text-7xl">
+        <h1 className="text-gold mt-4 text-3xl leading-tight tracking-[0.16em] uppercase sm:text-5xl">
           Forever Begins Here
         </h1>
-        <p className="script-title mt-6 text-3xl sm:text-4xl">
+        <p className="script-title mt-4 text-2xl sm:text-3xl">
           a love story written in moonlight
         </p>
-        <button type="button" onClick={onEnter} className="artifact-btn mt-14 px-10 py-4 text-xs">
+        <button type="button" onClick={onEnter} className="artifact-btn mt-9 px-8 py-3.5 text-[0.65rem]">
           Enter the Kingdom
         </button>
-        <p className="mt-8 text-xs tracking-[0.3em] text-muted-foreground/70 uppercase">
+        <p className="mt-6 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
           Best experienced with sound
         </p>
       </div>
