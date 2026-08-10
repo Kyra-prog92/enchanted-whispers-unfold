@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ParticleField, type FieldVariant } from "./ParticleField";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 /**
  * A cinematic chapter stage: parallax matte-painting backdrop with slow camera
@@ -28,10 +29,11 @@ export function Scene({
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [offset, setOffset] = useState(0);
+  const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || reduced) return;
     let raf = 0;
     const onScroll = () => {
       cancelAnimationFrame(raf);
@@ -47,7 +49,7 @@ export function Scene({
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduced]);
 
   useEffect(() => {
     const el = ref.current;
@@ -66,31 +68,31 @@ export function Scene({
     <section
       id={id}
       ref={ref}
-      className={`vignette relative flex min-h-screen items-center justify-center overflow-hidden ${className}`}
+      className={`vignette relative flex min-h-dvh items-center justify-center overflow-hidden ${className}`}
     >
       <div className="absolute inset-0 will-change-transform">
         <img
           src={image}
           alt={alt}
           loading="lazy"
-          className="h-full w-full scale-110 object-cover"
+          className="h-full w-full object-cover"
           style={{
-            transform: `scale(1.14) translate3d(0, ${offset * -7}%, 0)`,
+            transform: `scale(1.06) translate3d(0, ${offset * -4}%, 0)`,
             filter: "saturate(1.05) contrast(1.05) brightness(0.86)",
           }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_40%,transparent,oklch(0.07_0.03_265/0.7))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(75%_65%_at_50%_40%,oklch(0.07_0.03_265/0.35),oklch(0.07_0.03_265/0.82))]" />
       </div>
 
-      {rays ? (
+      {rays && !reduced ? (
         <div className="godrays pointer-events-none absolute -top-1/3 left-0 h-[160%] w-full opacity-70" />
       ) : null}
 
       <ParticleField variant={particles} count={particleCount} />
 
       <div
-        className="relative z-10 mx-auto w-full max-w-5xl px-6 py-28"
-        style={{ transform: `translate3d(0, ${offset * 3}%, 0)` }}
+        className="relative z-10 mx-auto w-full max-w-4xl px-5 pt-16 pb-36 sm:px-6 sm:pt-20 sm:pb-40"
+        style={{ transform: `translate3d(0, ${offset * 1.5}%, 0)` }}
       >
         {children}
       </div>
