@@ -185,6 +185,96 @@
   ::selection {
     background: oklch(0.82 0.13 85 / 0.3);
   }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@utility parchment {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 20% 0%, oklch(0.95 0.04 88 / 0.97), transparent 60%),
+    radial-gradient(120% 90% at 90% 100%, oklch(0.86 0.06 72 / 0.95), transparent 62%),
+    linear-gradient(150deg, oklch(0.93 0.045 86), oklch(0.87 0.055 76));
+  color: oklch(0.28 0.06 40);
+  border: 1px solid oklch(0.62 0.09 60 / 0.5);
+  box-shadow:
+    var(--shadow-royal),
+    0 0 70px oklch(0.82 0.13 85 / 0.28),
+    inset 0 0 60px oklch(0.55 0.08 55 / 0.22);
+}
+
+@keyframes unfurl {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(-16deg) translateY(26px) scale(0.97);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1200px) rotateX(0) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes seal-break {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1.35) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.4) rotate(-14deg);
+    opacity: 0;
+  }
+}
+
+@keyframes soft-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-7px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes light-bloom {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes spark-rise {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-38px) scale(0.3);
+  }
 }
 
 @utility text-gold {
