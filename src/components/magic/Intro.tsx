@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SkyCanvas } from "./SkyCanvas";
 import { ParticleField } from "./ParticleField";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import castleMoon from "@/assets/castle-moon.jpg";
 import gates from "@/assets/gates.jpg";
 
@@ -10,8 +11,15 @@ import gates from "@/assets/gates.jpg";
  */
 export function Intro({ onEnter }: { onEnter: () => void }) {
   const [beat, setBeat] = useState(0); // 0 dark → 1 stars → 2 flight → 3 gates → 4 title
+  const reduced = usePrefersReducedMotion();
+  const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const raf = useRef(0);
 
   useEffect(() => {
+    if (reduced) {
+      setBeat(4);
+      return;
+    }
     const timers = [
       window.setTimeout(() => setBeat(1), 700),
       window.setTimeout(() => setBeat(2), 3200),
@@ -19,13 +27,34 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
       window.setTimeout(() => setBeat(4), 11500),
     ];
     return () => timers.forEach(window.clearTimeout);
-  }, []);
+  }, [reduced]);
+
+  // Cursor-responsive depth: the environment leans with the visitor, never jitters.
+  const onPointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (reduced) return;
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      cancelAnimationFrame(raf.current);
+      raf.current = requestAnimationFrame(() => setPointer({ x, y }));
+    },
+    [reduced],
+  );
+
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   return (
-    <section className="vignette fixed inset-0 z-[60] overflow-hidden bg-[oklch(0.05_0.02_265)]">
+    <section
+      onPointerMove={onPointerMove}
+      aria-label="Opening overture"
+      className="vignette fixed inset-0 z-[60] overflow-hidden bg-[oklch(0.05_0.02_265)]"
+    >
       <div
         className="absolute inset-0 transition-opacity duration-[2500ms]"
-        style={{ opacity: beat >= 1 ? 1 : 0 }}
+        style={{
+          opacity: beat >= 1 ? 1 : 0,
+          transform: `translate3d(${pointer.x * -6}px, ${pointer.y * -4}px, 0)`,
+        }}
       >
         <SkyCanvas density={1.5} />
       </div>
@@ -33,7 +62,7 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
         className="absolute inset-0 transition-all duration-[4000ms] ease-out"
         style={{
           opacity: beat >= 2 && beat < 3 ? 1 : 0,
-          transform: beat >= 2 ? "scale(1.25)" : "scale(1.9)",
+          transform: `${beat >= 2 ? "scale(1.25)" : "scale(1.9)"} translate3d(${pointer.x * -14}px, ${pointer.y * -8}px, 0)`,
         }}
       >
         <img
@@ -41,14 +70,19 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
           alt="A colossal enchanted castle beneath an enormous moon"
           width={1920}
           height={1088}
+          decoding="async"
           className="h-full w-full object-cover"
           style={{ filter: "brightness(0.9) saturate(1.05)" }}
         />
         <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_35%,transparent,oklch(0.06_0.02_265/0.85))]" />
+        <div className="fog-layer" />
       </div>
       <div
         className="absolute inset-0 transition-opacity duration-[2200ms]"
-        style={{ opacity: beat >= 3 ? 1 : 0 }}
+        style={{
+          opacity: beat >= 3 ? 1 : 0,
+          transform: `translate3d(${pointer.x * -8}px, 0, 0)`,
+        }}
       >
         <div className="absolute inset-0 overflow-hidden">
           <div
