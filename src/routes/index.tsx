@@ -67,7 +67,6 @@ function Index() {
     return () => window.removeEventListener("keydown", onKey);
   }, [entered, go, step]);
 
-  const chapters = [
   const chapter = CHAPTERS[step]!;
 
   return (
