@@ -2,38 +2,9 @@ import { useCallback, useState } from "react";
 import { Scene } from "@/components/magic/Scene";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
 import { Reveal } from "@/components/magic/Reveal";
+import { MemoryMoment } from "@/components/magic/MemoryMoment";
+import { GARDEN_MEMORIES as MEMORIES } from "@/story/memories";
 import garden from "@/assets/garden.jpg";
-import ballroom from "@/assets/ballroom.jpg";
-import lake from "@/assets/lake.jpg";
-import roseTunnel from "@/assets/rose-tunnel.jpg";
-import moonBridge from "@/assets/moon-bridge.jpg";
-
-const MEMORIES = [
-  {
-    src: ballroom,
-    title: "The First Dance",
-    when: "The night we met",
-    caption: "Chandeliers held their breath while we forgot the rest of the world.",
-  },
-  {
-    src: lake,
-    title: "The Quiet Lake",
-    when: "The first summer",
-    caption: "A hundred candles on the water, and still your eyes were the brightest light.",
-  },
-  {
-    src: roseTunnel,
-    title: "The Rose Tunnel",
-    when: "The long walk home",
-    caption: "We walked until the petals learned our names.",
-  },
-  {
-    src: moonBridge,
-    title: "The Moon Bridge",
-    when: "The night you said forever",
-    caption: "Above the clouds you said forever, and the wind carried it away as a promise.",
-  },
-];
 
 /**
  * The memories play as a guided story sequence — one moment at a time, joined by a
@@ -61,32 +32,8 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
         subtitle="every flower keeps a moment"
       />
 
-      <Reveal delay={160} className="mt-7">
-        <figure
-          key={m.title}
-          className="glass-panel mx-auto max-w-2xl overflow-hidden rounded-sm p-3"
-          style={{ animation: "rise-in 1.1s var(--ease-cine) both" }}
-        >
-          <div className="relative overflow-hidden rounded-sm">
-            <img
-              src={m.src}
-              alt={`${m.title} — ${m.caption}`}
-              loading="lazy"
-              width={1400}
-              height={900}
-              className="h-44 w-full object-cover sm:h-64"
-              style={{ filter: "brightness(0.85) saturate(1.06)" }}
-            />
-            <div className="absolute inset-0 bg-[radial-gradient(75%_65%_at_50%_50%,transparent,oklch(0.08_0.03_265/0.7))]" />
-          </div>
-          <figcaption className="px-4 py-5 text-center">
-            <p className="text-[0.55rem] tracking-[0.4em] text-primary uppercase">{m.when}</p>
-            <p className="text-gold mt-2 font-display text-sm tracking-[0.28em] uppercase sm:text-base">
-              {m.title}
-            </p>
-            <p className="mt-3 text-base text-ivory/90 italic">{m.caption}</p>
-          </figcaption>
-        </figure>
+      <div className="mt-7">
+        <MemoryMoment memory={m} className="mx-auto max-w-2xl" />
 
         {/* Journey timeline — the memories are stops on one path, not tiles in a grid. */}
         <nav
@@ -143,7 +90,7 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
             Later →
           </button>
         </div>
-      </Reveal>
+      </div>
     </Scene>
   );
 }
