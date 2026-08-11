@@ -105,25 +105,60 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
           style={{ opacity: beat >= 4 ? 1 : 0.15 }}
         />
       </div>
+      <div className="fog-layer" />
       <ParticleField variant="fireflies" count={32} />
       <div
         className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center transition-all duration-[2500ms]"
         style={{
           opacity: beat >= 4 ? 1 : 0,
-          transform: beat >= 4 ? "translateY(0)" : "translateY(28px)",
+          transform: beat >= 4 ? "translateY(0)" : "translateY(20px)",
           pointerEvents: beat >= 4 ? "auto" : "none",
         }}
       >
-        <p className="font-display text-[0.55rem] tracking-[0.55em] text-primary uppercase sm:tracking-[0.7em]">
+        <p
+          className="font-display text-[0.55rem] tracking-[0.55em] text-primary uppercase sm:tracking-[0.7em]"
+          style={{ animation: beat >= 4 ? "word-rise 1.4s var(--ease-cine) both" : undefined }}
+        >
           An enchanted kingdom
         </p>
-        <h1 className="text-gold mt-4 text-3xl leading-tight tracking-[0.16em] uppercase sm:text-5xl">
-          Forever Begins Here
+        {/* The title arrives one word at a time, the way a story is told aloud. */}
+        <h1 className="text-gold mt-4 flex flex-wrap justify-center gap-x-3 text-3xl leading-tight tracking-[0.16em] uppercase sm:text-5xl">
+          {["Forever", "Begins", "Here"].map((word, i) => (
+            <span
+              key={word}
+              className="inline-block"
+              style={{
+                animation: reduced
+                  ? undefined
+                  : beat >= 4
+                    ? `word-rise 1.6s var(--ease-cine) ${350 + i * 480}ms both`
+                    : undefined,
+                opacity: reduced || beat >= 4 ? undefined : 0,
+              }}
+            >
+              {word}
+            </span>
+          ))}
         </h1>
-        <p className="script-title mt-4 text-2xl sm:text-3xl">
+        <p
+          className="script-title mt-4 text-2xl sm:text-3xl"
+          style={{
+            animation:
+              !reduced && beat >= 4 ? "word-rise 1.8s var(--ease-cine) 1900ms both" : undefined,
+          }}
+        >
           a love story written in moonlight
         </p>
-        <button type="button" onClick={onEnter} className="artifact-btn mt-9 px-8 py-3.5 text-[0.65rem]">
+        <button
+          type="button"
+          onClick={onEnter}
+          aria-label="Enter the kingdom and begin Chapter I, The Enchanted Gates"
+          className="artifact-btn mt-9 min-h-11 px-8 py-3.5 text-[0.65rem]"
+          style={{
+            animation:
+              !reduced && beat >= 4 ? "word-rise 1.4s var(--ease-cine) 2600ms both" : undefined,
+          }}
+        >
           Enter the Kingdom
         </button>
         <p className="mt-6 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
