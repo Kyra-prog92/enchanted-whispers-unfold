@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { Scene } from "@/components/magic/Scene";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
-import { Reveal } from "@/components/magic/Reveal";
 import { MemoryMoment } from "@/components/magic/MemoryMoment";
 import { GARDEN_MEMORIES as MEMORIES } from "@/story/memories";
 import garden from "@/assets/garden.jpg";
