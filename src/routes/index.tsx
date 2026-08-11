@@ -1,20 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { Intro } from "@/components/magic/Intro";
-import { Scene } from "@/components/magic/Scene";
-import { ChapterTitle } from "@/components/magic/ChapterTitle";
-import { Reveal } from "@/components/magic/Reveal";
 import { CursorMagic } from "@/components/magic/CursorMagic";
-import { ChapterNav, CHAPTERS } from "@/components/magic/ChapterNav";
+import { ChapterNav } from "@/components/magic/ChapterNav";
+import { ThresholdTransition } from "@/components/magic/ThresholdTransition";
 import { useSoundtrack } from "@/components/magic/useSoundtrack";
-import { LetterRoom } from "@/components/chapters/LetterRoom";
-import { MemoryGarden } from "@/components/chapters/MemoryGarden";
-import { WishTree } from "@/components/chapters/WishTree";
-import { HiddenRealms } from "@/components/chapters/HiddenRealms";
-import { PromiseChamber } from "@/components/chapters/PromiseChamber";
-import { Forever } from "@/components/chapters/Forever";
-import { BehindTheMagic } from "@/components/chapters/BehindTheMagic";
-import gates from "@/assets/gates.jpg";
+import { CHAPTERS } from "@/story/chapters";
 
 const TITLE = "Forever Begins Here — An Enchanted Cinematic Love Story";
 const DESCRIPTION =
@@ -34,26 +25,22 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NEXT_LABEL = [
-  "Enter the Letter Room",
-  "Walk into the Memory Garden",
-  "Follow us to the Wishing Tree",
-  "Open the Hidden Realms",
-  "Step into the Promise Chamber",
-  "Rise into Forever",
-  "See Behind the Magic",
-  "Begin our story again",
-];
-
 function Index() {
   const [entered, setEntered] = useState(false);
+  const [crossing, setCrossing] = useState(false);
   const { enabled, toggle } = useSoundtrack();
   const [step, setStep] = useState(0);
 
+  // Crossing the threshold: light blooms out of the gates, then Chapter I is there.
   const enter = useCallback(() => {
-    setEntered(true);
+    setCrossing(true);
     if (!enabled) toggle();
   }, [enabled, toggle]);
+
+  const finishCrossing = useCallback(() => {
+    setCrossing(false);
+    setEntered(true);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = entered ? "" : "hidden";
@@ -80,40 +67,13 @@ function Index() {
     return () => window.removeEventListener("keydown", onKey);
   }, [entered, go, step]);
 
-  const chapters = [
-    <Scene
-      key="gates"
-      id="gates"
-      image={gates}
-      alt="The two lovers hand in hand before the enchanted castle gates opening in golden light"
-      particles="fireflies"
-      particleCount={48}
-    >
-      <ChapterTitle
-        chapter="Chapter I"
-        title="The Enchanted Gates"
-        subtitle="moonlight, fog, and roses that waited for you"
-      />
-      <Reveal delay={260} className="mx-auto mt-7 max-w-xl text-center">
-        <p className="text-base leading-relaxed text-ivory/90 italic sm:text-xl">
-          The lanterns lean toward us. The fog parts like a curtain. Somewhere beyond these gates, a
-          library keeps a letter that has been waiting since before the stars learned to shine.
-        </p>
-      </Reveal>
-    </Scene>,
-    <LetterRoom key="letter" onEnter={undefined} />,
-    <MemoryGarden key="garden" onEnter={undefined} />,
-    <WishTree key="wish" onEnter={undefined} />,
-    <HiddenRealms key="realms" />,
-    <PromiseChamber key="promise" onEnter={undefined} />,
-    <Forever key="forever" onEnter={undefined} />,
-    <BehindTheMagic key="behind" />,
-  ];
+  const chapter = CHAPTERS[step]!;
 
   return (
     <main className="relative">
       <CursorMagic />
       {!entered ? <Intro onEnter={enter} /> : null}
+      <ThresholdTransition active={crossing} onDone={finishCrossing} />
 
       {entered ? (
       <button
@@ -137,8 +97,8 @@ function Index() {
 
       {entered ? <ChapterNav current={step} onJump={go} /> : null}
 
-      <div key={step} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
-        {chapters[step]}
+      <div key={chapter.id} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
+        {chapter.render()}
       </div>
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
@@ -149,7 +109,7 @@ function Index() {
           onClick={() => go(step + 1)}
           className="artifact-btn pointer-events-auto max-w-[92vw] overflow-hidden px-6 py-3.5 text-[0.55rem] sm:px-8 sm:py-4 sm:text-[0.62rem]"
         >
-          {NEXT_LABEL[step]}
+          {chapter.nextLabel}
         </button>
         <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase">
           <button

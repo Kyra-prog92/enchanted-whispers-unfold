@@ -1,13 +1,6 @@
-export const CHAPTERS = [
-  { id: "gates", label: "I · Gates" },
-  { id: "letter", label: "II · Letter" },
-  { id: "garden", label: "III · Garden" },
-  { id: "wish", label: "IV · Wish" },
-  { id: "realms", label: "· Realms" },
-  { id: "promise", label: "V · Promise" },
-  { id: "forever", label: "VI · Forever" },
-  { id: "behind", label: "· Behind" },
-];
+import { CHAPTERS } from "@/story/chapters";
+
+export { CHAPTERS };
 
 /** Floating chapter compass + memory clock whose hand advances with the journey. */
 export function ChapterNav({
@@ -29,10 +22,12 @@ export function ChapterNav({
             type="button"
             onClick={() => onJump(i)}
             aria-current={i === current ? "step" : undefined}
+            aria-label={`Go to chapter ${i + 1}: ${c.label.replace(/^[^·]*· /, "")}`}
             className="group flex items-center gap-3 text-[0.6rem] tracking-[0.35em] uppercase"
           >
             <span
               className="text-muted-foreground/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              aria-hidden
               style={{ opacity: i === current ? 1 : undefined }}
             >
               {c.label}

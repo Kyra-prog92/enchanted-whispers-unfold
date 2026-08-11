@@ -5,20 +5,28 @@ import observatory from "@/assets/observatory.jpg";
 
 const NOTES = [
   {
+    heading: "Project vision",
+    body: "A love letter you can walk through. The web treated as a stage rather than a document: a kingdom that opens for one visitor at a time and remembers them while they're inside it.",
+  },
+  {
     heading: "Technologies",
-    body: "React + TypeScript on TanStack Start, Tailwind CSS v4 design tokens, hand-written Canvas 2D particle systems, the Web Audio-backed HTMLAudio layer, and IntersectionObserver-driven reveals.",
+    body: "React 19 + TypeScript on TanStack Start, Tailwind CSS v4 design tokens, hand-written Canvas 2D particle systems, an HTMLAudio soundtrack layer with fades, and IntersectionObserver-driven reveals.",
   },
   {
-    heading: "Design philosophy",
-    body: "Interaction as narration. Nothing appears without being invited: the visitor breaks a seal, walks a timeline, chooses the next chapter. Motion carries meaning instead of decoration.",
+    heading: "Interaction design",
+    body: "Interaction as narration. Nothing appears without being invited: the visitor crosses a threshold of light, breaks a wax seal, walks a timeline, chooses the next chapter. Motion carries meaning instead of decoration.",
   },
   {
-    heading: "Challenges solved",
-    body: "Cinematic atmosphere at 60fps — one shared canvas per scene, particle counts halved on small screens, transforms kept on the compositor, and audio that never autoplays before a gesture.",
+    heading: "Engineering challenges",
+    body: "Cinematic atmosphere at 60fps — one canvas per scene, particle counts halved on small screens, pointer parallax throttled to a single animation frame, transforms kept on the compositor, and audio that never sounds before a gesture.",
   },
   {
-    heading: "Lessons learned",
-    body: "Emotional pacing is an engineering problem. Timing, easing and restraint changed how the story felt far more than any extra effect, and accessibility work (contrast, focus rings, reduced motion) made it better for everyone.",
+    heading: "What I learned",
+    body: "Emotional pacing is an engineering problem. Timing, easing and restraint changed how the story felt far more than any added effect, and the accessibility work — contrast, focus rings, reduced motion — made it better for everyone.",
+  },
+  {
+    heading: "Future possibilities",
+    body: "Chapters are data now: one object in the story registry adds a room to the kingdom, and memories are a reusable component with image, date, narration and optional ambience. Next: WebGL depth, spoken narration, and a memory a visitor can leave behind.",
   },
 ];
 

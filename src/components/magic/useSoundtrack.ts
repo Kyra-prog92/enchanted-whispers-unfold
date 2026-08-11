@@ -4,6 +4,8 @@ import song from "@/assets/song.mp3.asset.json";
 const TARGET_VOLUME = 0.55;
 
 /** The kingdom's theme song — looping, with a slow cinematic fade in and out. */
+const PREF_KEY = "ewu:sound";
+
 export function useSoundtrack() {
   const [enabled, setEnabled] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -51,6 +53,17 @@ export function useSoundtrack() {
     });
   }, [pause, play]);
 
+  // Remember the visitor's choice for the rest of the session (never across visits,
+  // and never used to autoplay before a gesture).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.sessionStorage.setItem(PREF_KEY, enabled ? "on" : "off");
+    } catch {
+      /* private mode — the preference simply isn't remembered */
+    }
+  }, [enabled]);
+
   useEffect(
     () => () => {
       if (fadeRef.current) window.clearInterval(fadeRef.current);
@@ -60,5 +73,15 @@ export function useSoundtrack() {
     [],
   );
 
-  return { enabled, toggle };
+  /** The stored preference, for deciding whether a gesture should start the music. */
+  const preferred = (() => {
+    if (typeof window === "undefined") return null;
+    try {
+      return window.sessionStorage.getItem(PREF_KEY);
+    } catch {
+      return null;
+    }
+  })();
+
+  return { enabled, toggle, preferred };
 }
