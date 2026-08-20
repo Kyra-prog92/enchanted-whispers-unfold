@@ -156,7 +156,7 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
           aria-modal="true"
           aria-label={`Memory: ${m.title}`}
           className="fixed inset-0 z-[95] flex flex-col justify-center bg-[oklch(0.05_0.02_265/0.96)] px-4 py-6 sm:px-8"
-          style={{ animation: "light-bloom 0.9s var(--ease-cine) both" }}
+          style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
           {...swipe}
         >
           <MemoryMoment memory={m} fullscreen className="mx-auto w-full max-w-5xl" />
