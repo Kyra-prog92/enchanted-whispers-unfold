@@ -158,7 +158,7 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
               role="dialog"
               aria-modal="true"
               aria-label={`Memory: ${m.title}`}
-              className="fixed inset-0 z-[95] flex flex-col justify-center overflow-hidden bg-[oklch(0.05_0.02_265/0.97)] px-4 py-6 sm:px-8"
+              className="fixed inset-0 z-[95] flex flex-col justify-center overflow-hidden bg-[oklch(0.05_0.02_265)] px-4 py-6 sm:px-8"
               style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
               {...swipe}
             >
