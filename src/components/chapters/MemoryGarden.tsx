@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Scene } from "@/components/magic/Scene";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
 import { MemoryMoment } from "@/components/magic/MemoryMoment";
