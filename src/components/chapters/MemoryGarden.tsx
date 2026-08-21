@@ -149,28 +149,37 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
         <div className="mt-5">{prevNext}</div>
       </div>
 
-      {/* Full-screen presentation: the visual becomes the world, the chrome recedes. */}
-      {immersive ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Memory: ${m.title}`}
-          className="fixed inset-0 z-[95] flex flex-col justify-center bg-[oklch(0.05_0.02_265/0.96)] px-4 py-6 sm:px-8"
-          style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
-          {...swipe}
-        >
-          <MemoryMoment memory={m} fullscreen className="mx-auto w-full max-w-5xl" />
-          <div className="mt-5">{prevNext}</div>
-          <button
-            type="button"
-            onClick={() => setImmersive(false)}
-            aria-label="Leave this moment"
-            className="absolute top-4 right-4 min-h-11 px-3 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase transition-colors hover:text-primary focus-visible:text-primary"
-          >
-            Close ✕
-          </button>
-        </div>
-      ) : null}
+      {/* Full-screen presentation: the visual becomes the world, the chrome recedes.
+          Portalled to the body so no parent transform can trap it in the scene. */}
+      {immersive && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Memory: ${m.title}`}
+              className="fixed inset-0 z-[95] flex flex-col justify-center overflow-hidden bg-[oklch(0.05_0.02_265/0.97)] px-4 py-6 sm:px-8"
+              style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
+              {...swipe}
+            >
+              <MemoryMoment
+                memory={m}
+                fullscreen
+                className="mx-auto w-full max-w-5xl"
+              />
+              <div className="mt-5">{prevNext}</div>
+              <button
+                type="button"
+                onClick={() => setImmersive(false)}
+                aria-label="Leave this moment"
+                className="absolute top-4 right-4 min-h-11 px-3 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase transition-colors hover:text-primary focus-visible:text-primary"
+              >
+                Close ✕
+              </button>
+            </div>,
+            document.body,
+          )
+        : null}
+
     </Scene>
   );
 }
