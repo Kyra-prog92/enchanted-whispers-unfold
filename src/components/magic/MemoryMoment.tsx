@@ -58,7 +58,9 @@ export function MemoryMoment({
     };
   }, [memory.ambient, soundEnabled]);
 
-  const frame = fullscreen ? "aspect-[4/5] sm:aspect-[16/9]" : "aspect-[16/10]";
+  const frame = fullscreen
+    ? "aspect-[4/5] max-h-[62dvh] sm:aspect-[16/9] sm:max-h-[68dvh]"
+    : "aspect-[16/10]";
 
   return (
     <Reveal key={memory.title} className={className}>
@@ -79,7 +81,7 @@ export function MemoryMoment({
               alt={memory.alt ?? memory.title}
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover"
+              className={fullscreen ? "h-full w-full object-contain" : "h-full w-full object-cover"}
               style={{
                 animation: reduced ? undefined : "ken-burns 22s ease-in-out infinite alternate",
               }}
