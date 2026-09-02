@@ -162,6 +162,9 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
               style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
               {...swipe}
             >
+              {/* The immersive world keeps its own weather: drifting petals and soft fog. */}
+              <span aria-hidden className="fog-layer" />
+              <ParticleField variant="petals" count={22} />
               <MemoryMoment
                 memory={m}
                 fullscreen
