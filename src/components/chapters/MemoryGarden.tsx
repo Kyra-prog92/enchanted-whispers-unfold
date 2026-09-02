@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Scene } from "@/components/magic/Scene";
+import { ParticleField } from "@/components/magic/ParticleField";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
 import { MemoryMoment } from "@/components/magic/MemoryMoment";
 import { GARDEN_MEMORIES as MEMORIES } from "@/story/memories";
@@ -128,8 +129,7 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
               <span
                 className="h-px w-full transition-colors duration-700"
                 style={{
-                  background:
-                    k <= i ? "oklch(0.85 0.14 85 / 0.85)" : "oklch(0.85 0.14 85 / 0.22)",
+                  background: k <= i ? "oklch(0.85 0.14 85 / 0.85)" : "oklch(0.85 0.14 85 / 0.22)",
                 }}
               />
               <span
@@ -162,11 +162,10 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
               style={{ animation: "rise-in 0.9s var(--ease-cine) both" }}
               {...swipe}
             >
-              <MemoryMoment
-                memory={m}
-                fullscreen
-                className="mx-auto w-full max-w-5xl"
-              />
+              {/* The immersive world keeps its own weather: drifting petals and soft fog. */}
+              <span aria-hidden className="fog-layer" />
+              <ParticleField variant="petals" count={22} />
+              <MemoryMoment memory={m} fullscreen className="mx-auto w-full max-w-5xl" />
               <div className="mt-5">{prevNext}</div>
               <button
                 type="button"
@@ -180,7 +179,6 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
             document.body,
           )
         : null}
-
     </Scene>
   );
 }

@@ -6,13 +6,7 @@ import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
  * whites over, then the light recedes into the next chapter. Not a page change —
  * a change of lighting in the same place.
  */
-export function ThresholdTransition({
-  active,
-  onDone,
-}: {
-  active: boolean;
-  onDone: () => void;
-}) {
+export function ThresholdTransition({ active, onDone }: { active: boolean; onDone: () => void }) {
   const reduced = usePrefersReducedMotion();
   const [visible, setVisible] = useState(false);
 

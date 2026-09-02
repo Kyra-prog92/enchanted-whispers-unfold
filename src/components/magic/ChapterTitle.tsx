@@ -17,9 +17,7 @@ export function ChapterTitle({
       <h2 className="text-gold mt-3 text-2xl leading-[1.1] tracking-[0.12em] uppercase sm:text-4xl">
         {title}
       </h2>
-      {subtitle ? (
-        <p className="script-title mt-2 text-xl sm:text-2xl">{subtitle}</p>
-      ) : null}
+      {subtitle ? <p className="script-title mt-2 text-xl sm:text-2xl">{subtitle}</p> : null}
       <div className="mx-auto mt-5 h-px w-32 bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
     </Reveal>
   );

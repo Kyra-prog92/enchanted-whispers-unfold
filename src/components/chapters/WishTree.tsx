@@ -25,7 +25,11 @@ export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
       particleCount={40}
       onEnter={onEnter}
     >
-      <ChapterTitle chapter="Chapter IV" title="The Wishing Tree" subtitle="ask, and the leaves listen" />
+      <ChapterTitle
+        chapter="Chapter IV"
+        title="The Wishing Tree"
+        subtitle="ask, and the leaves listen"
+      />
 
       <Reveal delay={220} className="mx-auto mt-7 max-w-xl">
         <div
@@ -36,7 +40,10 @@ export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
             <p
               key={line}
               className="font-body text-base leading-relaxed text-ivory/90 sm:text-lg"
-              style={{ animation: `ink-write 1.6s ease-out ${0.3 + i * 0.6}s both`, marginTop: i ? "0.6rem" : 0 }}
+              style={{
+                animation: `ink-write 1.6s ease-out ${0.3 + i * 0.6}s both`,
+                marginTop: i ? "0.6rem" : 0,
+              }}
             >
               {line}
             </p>
@@ -52,7 +59,10 @@ export function WishTree({ onEnter }: { onEnter?: (() => void) | undefined }) {
         >
           Touch the Tree
         </button>
-        <p aria-live="polite" className="mt-4 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
+        <p
+          aria-live="polite"
+          className="mt-4 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase"
+        >
           {released === 0
             ? "and release the golden birds"
             : `${released * 7} golden birds carried the wish into the sky`}

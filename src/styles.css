@@ -566,3 +566,49 @@
     animation: none;
   }
 }
+
+/* --- Memory journey: cinematic crossfades between remembered moments --- */
+
+@keyframes memory-cross {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+    filter: blur(12px) brightness(1.25);
+  }
+  60% {
+    filter: blur(0) brightness(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes light-shift {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.34;
+  }
+}
+
+@utility memory-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 50% at 50% 30%,
+    oklch(0.92 0.09 88 / 0.22),
+    transparent 72%
+  );
+  animation: light-shift 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-glow {
+    animation: none;
+  }
+}

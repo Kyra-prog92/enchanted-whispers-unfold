@@ -124,16 +124,16 @@ export function LetterRoom({ onEnter }: { onEnter?: (() => void) | undefined }) 
                     }}
                   />
                 ))}
-              <input
-                value={word}
+                <input
+                  value={word}
                   onChange={(e) => onType(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && unlock()}
-                placeholder="Speak the word…"
-                aria-label="Password to unlock the letter"
+                  onKeyDown={(e) => e.key === "Enter" && unlock()}
+                  placeholder="Speak the word…"
+                  aria-label="Password to unlock the letter"
                   aria-invalid={error}
                   disabled={unsealing}
                   className="w-full border-b border-[oklch(0.45_0.09_45/0.55)] bg-transparent px-2 py-3 text-center font-body text-lg tracking-[0.2em] text-[oklch(0.26_0.06_40)] transition-all duration-500 outline-none placeholder:text-[oklch(0.45_0.05_45/0.6)] focus:border-[oklch(0.35_0.12_25)] focus:tracking-[0.3em]"
-              />
+                />
               </div>
               <button
                 type="button"
@@ -147,14 +147,14 @@ export function LetterRoom({ onEnter }: { onEnter?: (() => void) | undefined }) 
             <p aria-live="polite" className="mt-4 min-h-5 text-sm">
               {error ? (
                 <span className="text-[oklch(0.42_0.17_25)]">
-                The candles dim… whisper any word you hold dear.
+                  The candles dim… whisper any word you hold dear.
                 </span>
-            ) : (
+              ) : (
                 <span className="text-[0.65rem] tracking-[0.25em] text-[oklch(0.4_0.06_45)] uppercase">
-                Any word spoken with love will open it
+                  Any word spoken with love will open it
                 </span>
               )}
-              </p>
+            </p>
           </div>
         </Reveal>
       ) : (
