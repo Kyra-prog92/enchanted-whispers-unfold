@@ -16,13 +16,13 @@ export function ChapterNav({
         aria-label="Chapters"
         className="fixed top-1/2 right-4 z-50 hidden -translate-y-1/2 flex-col items-end gap-3 lg:flex"
       >
-        {CHAPTERS.map((c, i) => (
+        {CHAPTERS.map((c, i) => (c.secret ? null : (
           <button
             key={c.id}
             type="button"
             onClick={() => onJump(i)}
             aria-current={i === current ? "step" : undefined}
-            aria-label={`Go to chapter ${i + 1}: ${c.label.replace(/^[^·]*· /, "")}`}
+            aria-label={`Go to ${c.label.replace(/^[^·]*· /, "")}`}
             className="group flex items-center gap-3 text-[0.6rem] tracking-[0.35em] uppercase"
           >
             <span
@@ -41,7 +41,7 @@ export function ChapterNav({
               }}
             />
           </button>
-        ))}
+        )))}
       </nav>
 
       <div

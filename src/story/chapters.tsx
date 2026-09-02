@@ -24,6 +24,8 @@ export type Chapter = {
   label: string;
   /** Invitation shown on the button that leads INTO the next chapter. */
   nextLabel: string;
+  /** Secret/bonus chapters stay off the compass but remain part of the walk. */
+  secret?: boolean;
   render: () => ReactNode;
 };
 
@@ -78,7 +80,8 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     id: "realms",
-    label: "· Realms",
+    label: "Secret · Hidden Realms",
+    secret: true,
     nextLabel: "Step into the Promise Chamber",
     render: () => <HiddenRealms />,
   },
@@ -96,7 +99,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     id: "behind",
-    label: "· Behind",
+    label: "VII · Behind",
     nextLabel: "Begin our story again",
     render: () => <BehindTheMagic />,
   },
