@@ -76,23 +76,23 @@ function Index() {
       <ThresholdTransition active={crossing} onDone={finishCrossing} />
 
       {entered ? (
-      <button
-        type="button"
-        onClick={toggle}
-        aria-pressed={enabled}
-        aria-label={enabled ? "Mute the soundtrack" : "Play the soundtrack"}
-        className="glass-panel fixed top-4 right-4 z-[75] flex min-h-11 items-center gap-3 rounded-full px-4 py-3 text-[0.55rem] tracking-[0.3em] uppercase transition-transform duration-500 hover:-translate-y-0.5 sm:top-5 sm:right-5 sm:px-5 sm:text-[0.6rem]"
-      >
-        <span
-          className="h-2 w-2 rounded-full"
-          style={{
-            background: enabled ? "oklch(0.85 0.14 85)" : "oklch(0.55 0.03 265)",
-            boxShadow: enabled ? "var(--glow-gold)" : "none",
-            animation: enabled ? "soft-pulse 2.6s ease-in-out infinite" : undefined,
-          }}
-        />
-        {enabled ? "Music On" : "Music Off"}
-      </button>
+        <button
+          type="button"
+          onClick={toggle}
+          aria-pressed={enabled}
+          aria-label={enabled ? "Mute the soundtrack" : "Play the soundtrack"}
+          className="glass-panel fixed top-4 right-4 z-[75] flex min-h-11 items-center gap-3 rounded-full px-4 py-3 text-[0.55rem] tracking-[0.3em] uppercase transition-transform duration-500 hover:-translate-y-0.5 sm:top-5 sm:right-5 sm:px-5 sm:text-[0.6rem]"
+        >
+          <span
+            className="h-2 w-2 rounded-full"
+            style={{
+              background: enabled ? "oklch(0.85 0.14 85)" : "oklch(0.55 0.03 265)",
+              boxShadow: enabled ? "var(--glow-gold)" : "none",
+              animation: enabled ? "soft-pulse 2.6s ease-in-out infinite" : undefined,
+            }}
+          />
+          {enabled ? "Music On" : "Music Off"}
+        </button>
       ) : null}
 
       {entered ? <ChapterNav current={step} onJump={go} /> : null}
@@ -103,27 +103,27 @@ function Index() {
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
       {entered ? (
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-2 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.94)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-5 pt-12 pb-5 sm:gap-3 sm:pt-16 sm:pb-7">
-        <button
-          type="button"
-          onClick={() => go(step + 1)}
-          className="artifact-btn pointer-events-auto max-w-[92vw] overflow-hidden px-6 py-3.5 text-[0.55rem] sm:px-8 sm:py-4 sm:text-[0.62rem]"
-        >
-          {chapter.nextLabel}
-        </button>
-        <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase">
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[70] flex flex-col items-center gap-2 bg-gradient-to-t from-[oklch(0.06_0.02_265/0.94)] via-[oklch(0.06_0.02_265/0.6)] to-transparent px-5 pt-12 pb-5 sm:gap-3 sm:pt-16 sm:pb-7">
           <button
             type="button"
-            onClick={() => go(step - 1)}
-            className="min-h-11 px-2 transition-colors hover:text-primary"
+            onClick={() => go(step + 1)}
+            className="artifact-btn pointer-events-auto max-w-[92vw] overflow-hidden px-6 py-3.5 text-[0.55rem] sm:px-8 sm:py-4 sm:text-[0.62rem]"
           >
-            ← Back
+            {chapter.nextLabel}
           </button>
-          <span className="text-primary">
-            {step + 1} / {CHAPTERS.length}
-          </span>
+          <div className="pointer-events-auto flex items-center gap-5 text-[0.55rem] tracking-[0.35em] text-muted-foreground uppercase">
+            <button
+              type="button"
+              onClick={() => go(step - 1)}
+              className="min-h-11 px-2 transition-colors hover:text-primary"
+            >
+              ← Back
+            </button>
+            <span className="text-primary">
+              {step + 1} / {CHAPTERS.length}
+            </span>
+          </div>
         </div>
-      </div>
       ) : null}
 
       <footer className="relative border-t border-primary/15 py-10 pb-36 text-center">

@@ -35,9 +35,7 @@ export function Reveal({
       className={className}
       style={{
         opacity: seen ? undefined : 0,
-        animation: seen
-          ? `rise-in 1.5s var(--ease-cine) ${delay}ms both`
-          : undefined,
+        animation: seen ? `rise-in 1.5s var(--ease-cine) ${delay}ms both` : undefined,
       }}
     >
       {children}

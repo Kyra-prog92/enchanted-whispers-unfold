@@ -22,7 +22,11 @@ export function PromiseChamber({ onEnter }: { onEnter?: (() => void) | undefined
       particleCount={34}
       onEnter={onEnter}
     >
-      <ChapterTitle chapter="Chapter V" title="The Promise Chamber" subtitle="vows the candles will keep" />
+      <ChapterTitle
+        chapter="Chapter V"
+        title="The Promise Chamber"
+        subtitle="vows the candles will keep"
+      />
 
       <Reveal delay={160} className="mt-7 flex justify-center gap-8">
         {[0, 1].map((i) => (

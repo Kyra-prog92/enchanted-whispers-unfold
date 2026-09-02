@@ -52,7 +52,10 @@ export function HiddenRealms() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="realms" className="vignette relative min-h-dvh overflow-hidden pt-16 pb-36 sm:pt-20 sm:pb-40">
+    <section
+      id="realms"
+      className="vignette relative min-h-dvh overflow-hidden pt-16 pb-36 sm:pt-20 sm:pb-40"
+    >
       <ParticleField variant="dust" count={34} />
       <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
         <Reveal className="text-center">

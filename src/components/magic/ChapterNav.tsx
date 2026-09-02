@@ -16,32 +16,34 @@ export function ChapterNav({
         aria-label="Chapters"
         className="fixed top-1/2 right-4 z-50 hidden -translate-y-1/2 flex-col items-end gap-3 lg:flex"
       >
-        {CHAPTERS.map((c, i) => (c.secret ? null : (
-          <button
-            key={c.id}
-            type="button"
-            onClick={() => onJump(i)}
-            aria-current={i === current ? "step" : undefined}
-            aria-label={`Go to ${c.label.replace(/^[^·]*· /, "")}`}
-            className="group flex items-center gap-3 text-[0.6rem] tracking-[0.35em] uppercase"
-          >
-            <span
-              className="text-muted-foreground/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              aria-hidden
-              style={{ opacity: i === current ? 1 : undefined }}
+        {CHAPTERS.map((c, i) =>
+          c.secret ? null : (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => onJump(i)}
+              aria-current={i === current ? "step" : undefined}
+              aria-label={`Go to ${c.label.replace(/^[^·]*· /, "")}`}
+              className="group flex items-center gap-3 text-[0.6rem] tracking-[0.35em] uppercase"
             >
-              {c.label}
-            </span>
-            <span
-              className="h-2 w-2 rotate-45 border transition-all duration-500"
-              style={{
-                borderColor: "oklch(0.82 0.13 85 / 0.6)",
-                background: i === current ? "oklch(0.85 0.14 85)" : "transparent",
-                boxShadow: i === current ? "var(--glow-gold)" : "none",
-              }}
-            />
-          </button>
-        )))}
+              <span
+                className="text-muted-foreground/60 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                aria-hidden
+                style={{ opacity: i === current ? 1 : undefined }}
+              >
+                {c.label}
+              </span>
+              <span
+                className="h-2 w-2 rotate-45 border transition-all duration-500"
+                style={{
+                  borderColor: "oklch(0.82 0.13 85 / 0.6)",
+                  background: i === current ? "oklch(0.85 0.14 85)" : "transparent",
+                  boxShadow: i === current ? "var(--glow-gold)" : "none",
+                }}
+              />
+            </button>
+          ),
+        )}
       </nav>
 
       <div

@@ -47,7 +47,9 @@ export function useOrchestra() {
   }, []);
 
   const start = useCallback(() => {
-    const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AC =
+      window.AudioContext ??
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     const ctx = new AC();
     ctxRef.current = ctx;
 

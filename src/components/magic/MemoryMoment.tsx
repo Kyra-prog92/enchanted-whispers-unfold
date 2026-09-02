@@ -71,9 +71,7 @@ export function MemoryMoment({
       <div
         // The crossfade lives on a wrapper so the framing never shifts.
         style={{
-          animation: reduced
-            ? undefined
-            : `memory-cross 1.1s var(--ease-cine) both`,
+          animation: reduced ? undefined : `memory-cross 1.1s var(--ease-cine) both`,
         }}
       >
         <figure
@@ -103,7 +101,9 @@ export function MemoryMoment({
                 alt={memory.alt ?? memory.title}
                 loading="lazy"
                 decoding="async"
-                className={fullscreen ? "h-full w-full object-contain" : "h-full w-full object-cover"}
+                className={
+                  fullscreen ? "h-full w-full object-contain" : "h-full w-full object-cover"
+                }
                 style={{
                   animation: reduced
                     ? undefined
@@ -122,7 +122,9 @@ export function MemoryMoment({
             }
           >
             {memory.when ? (
-              <p className="text-[0.55rem] tracking-[0.4em] text-primary uppercase">{memory.when}</p>
+              <p className="text-[0.55rem] tracking-[0.4em] text-primary uppercase">
+                {memory.when}
+              </p>
             ) : null}
             <h3
               className={`text-gold mt-2 font-display tracking-[0.16em] uppercase ${
