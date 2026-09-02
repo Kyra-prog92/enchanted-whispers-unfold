@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Scene } from "@/components/magic/Scene";
+import { ParticleField } from "@/components/magic/ParticleField";
 import { ChapterTitle } from "@/components/magic/ChapterTitle";
 import { MemoryMoment } from "@/components/magic/MemoryMoment";
 import { GARDEN_MEMORIES as MEMORIES } from "@/story/memories";
