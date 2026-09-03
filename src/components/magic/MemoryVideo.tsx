@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 /**
- * A cinematic video memory. It behaves like a living photograph: muted, looping
- * playback begins on its own where the browser allows it, and the controls stay
- * out of the frame until the visitor reaches for them.
+ * A cinematic video memory. Never autoplays with sound: playback begins only on
+ * a deliberate press, and the surrounding atmosphere stays out of the frame.
  *
  * The poster holds the frame before playback, so nothing shifts when the file
  * finally arrives — and if it never arrives, the moment degrades to a still.
@@ -13,24 +12,17 @@ export function MemoryVideo({
   src,
   poster,
   title,
-  autoPlay = true,
-  loop = true,
-  fullscreen = false,
   className = "",
 }: {
   src: string;
   poster?: string;
   title: string;
-  /** Muted autoplay only — sound is never forced on the visitor. */
-  autoPlay?: boolean;
-  loop?: boolean;
-  fullscreen?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLVideoElement | null>(null);
   const reduced = usePrefersReducedMotion();
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
@@ -43,18 +35,6 @@ export function MemoryVideo({
     setReady(false);
     setFailed(false);
   }, [src]);
-
-  // Living-photograph behaviour: muted autoplay where permitted, never with sound,
-  // and never when the visitor has asked for reduced motion.
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || !autoPlay || reduced || !ready || failed) return;
-    el.muted = true;
-    void el
-      .play()
-      .then(() => setPlaying(true))
-      .catch(() => undefined);
-  }, [autoPlay, reduced, ready, failed]);
 
   const toggle = () => {
     const el = ref.current;
@@ -73,7 +53,7 @@ export function MemoryVideo({
   };
 
   return (
-    <div className={`group relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden rounded-sm ${className}`}>
       {/* Poster underlay keeps the frame filled before the first frame decodes. */}
       {poster ? (
         <img
@@ -82,7 +62,7 @@ export function MemoryVideo({
           aria-hidden
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover opacity-80"
+          className="absolute inset-0 h-full w-full object-cover opacity-70"
         />
       ) : null}
 
@@ -92,12 +72,9 @@ export function MemoryVideo({
         poster={poster}
         preload="metadata"
         playsInline
-        loop={loop}
         muted={muted}
         aria-label={title}
-        className={`relative h-full w-full bg-[oklch(0.07_0.03_265)] transition-opacity duration-[1200ms] ${
-          fullscreen ? "object-contain sm:object-cover" : "object-cover"
-        }`}
+        className="relative h-full w-full bg-[oklch(0.07_0.03_265)] object-contain transition-opacity duration-[900ms]"
         style={{ opacity: failed ? 0 : ready ? 1 : reduced ? 1 : 0 }}
         onLoadedData={() => setReady(true)}
         onError={() => setFailed(true)}
@@ -111,7 +88,7 @@ export function MemoryVideo({
       />
 
       {failed ? (
-        <div className="absolute inset-0 flex items-end justify-center p-6">
+        <div className="absolute inset-0 flex items-end justify-center bg-[oklch(0.07_0.03_265/0.5)] p-6">
           <p className="text-center text-[0.6rem] tracking-[0.3em] text-ivory/80 uppercase">
             This moment is resting — the film will not play here
           </p>
@@ -121,25 +98,24 @@ export function MemoryVideo({
           type="button"
           onClick={toggle}
           aria-label={`Play the memory: ${title}`}
-          className="absolute inset-0 flex items-center justify-center transition-colors duration-500 focus-visible:outline-none"
+          className="absolute inset-0 flex items-center justify-center bg-[oklch(0.07_0.03_265/0.35)] transition-colors duration-500 hover:bg-[oklch(0.07_0.03_265/0.18)] focus-visible:bg-[oklch(0.07_0.03_265/0.18)] focus-visible:outline-none"
         >
           <span
             className="flex h-14 w-14 items-center justify-center rounded-full border text-primary transition-transform duration-500 hover:scale-105"
-            style={{ borderColor: "oklch(0.85 0.14 85 / 0.6)", boxShadow: "var(--glow-gold)" }}
+            style={{ borderColor: "oklch(0.85 0.14 85 / 0.7)", boxShadow: "var(--glow-gold)" }}
           >
             {loading ? "…" : "▶"}
           </span>
         </button>
       ) : null}
 
-      {/* The controls stay out of the frame until reached for. */}
       {!failed ? (
-        <div className="absolute inset-x-0 top-0 flex items-center gap-3 px-5 pt-3 opacity-0 transition-opacity duration-500 group-hover:opacity-100 focus-within:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-[oklch(0.07_0.03_265/0.9)] to-transparent px-4 pt-8 pb-3">
           <button
             type="button"
             onClick={toggle}
             aria-label={playing ? "Pause video" : "Play video"}
-            className="min-h-11 text-[0.55rem] tracking-[0.3em] text-ivory/85 uppercase transition-colors hover:text-primary focus-visible:text-primary"
+            className="min-h-11 text-[0.6rem] tracking-[0.3em] text-ivory/90 uppercase transition-colors hover:text-primary focus-visible:text-primary"
           >
             {playing ? "Pause" : "Play"}
           </button>
@@ -149,11 +125,11 @@ export function MemoryVideo({
             aria-valuenow={Math.round(progress)}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="h-px flex-1 bg-[oklch(0.85_0.14_85/0.2)]"
+            className="h-px flex-1 bg-[oklch(0.85_0.14_85/0.25)]"
           >
             <div
               className="h-px transition-[width] duration-200"
-              style={{ width: `${progress}%`, background: "oklch(0.85 0.14 85 / 0.85)" }}
+              style={{ width: `${progress}%`, background: "oklch(0.85 0.14 85 / 0.9)" }}
             />
           </div>
           <button
@@ -166,7 +142,7 @@ export function MemoryVideo({
             }}
             aria-pressed={muted}
             aria-label={muted ? "Unmute video" : "Mute video"}
-            className="min-h-11 text-[0.55rem] tracking-[0.3em] text-ivory/85 uppercase transition-colors hover:text-primary focus-visible:text-primary"
+            className="min-h-11 text-[0.6rem] tracking-[0.3em] text-ivory/90 uppercase transition-colors hover:text-primary focus-visible:text-primary"
           >
             {muted ? "Sound Off" : "Sound On"}
           </button>

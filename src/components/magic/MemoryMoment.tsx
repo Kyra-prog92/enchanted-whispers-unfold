@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Reveal } from "./Reveal";
 import { MemoryVideo } from "./MemoryVideo";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
@@ -21,26 +22,19 @@ export type Memory = {
   ambient?: string;
   /** Optional alt text; falls back to the title. */
   alt?: string;
-  /** Video memories only: begin muted playback as soon as the frame is ready. */
-  autoPlay?: boolean;
-  /** Video memories only: loop the clip like a living photograph. */
-  loop?: boolean;
 };
 
 /**
- * One remembered moment, staged as a full cinematic frame rather than a card.
+ * One remembered moment. Renders as a framed image, a narrative interlude, a
+ * cinematic video or a closing reveal, depending on its kind.
  *
- * The media fills the stage; the words live inside the same frame and arrive a
- * beat later, so the visitor reads the picture first and the story second.
- * Entrances and exits are film edits — crossfade, drift, and a breath of blur.
+ * Every moment arrives through the same crossfade — the visitor never sees a
+ * swap, only the light changing on the same stage.
  */
 export function MemoryMoment({
   memory,
   soundEnabled = false,
   fullscreen = false,
-  exiting = false,
-  /** Direction of the cut: +1 moving later in the story, -1 moving earlier. */
-  direction = 1,
   className = "",
 }: {
   memory: Memory;
@@ -48,9 +42,6 @@ export function MemoryMoment({
   soundEnabled?: boolean;
   /** In full-screen presentation the visual grows and the chrome recedes. */
   fullscreen?: boolean;
-  /** True while this moment is leaving the stage. */
-  exiting?: boolean;
-  direction?: 1 | -1;
   className?: string;
 }) {
   const reduced = usePrefersReducedMotion();
@@ -59,7 +50,7 @@ export function MemoryMoment({
   const narrative = kind === "text" || kind === "final";
 
   useEffect(() => {
-    if (!memory.ambient || !soundEnabled || exiting) return;
+    if (!memory.ambient || !soundEnabled) return;
     const el = new Audio(memory.ambient);
     el.loop = true;
     el.volume = 0.18;
@@ -69,124 +60,97 @@ export function MemoryMoment({
       el.pause();
       audioRef.current = null;
     };
-  }, [memory.ambient, soundEnabled, exiting]);
+  }, [memory.ambient, soundEnabled]);
 
-  const hasMedia = kind === "video" ? Boolean(memory.video) : Boolean(memory.src);
+  const frame = fullscreen
+    ? "aspect-[4/5] max-h-[62dvh] sm:aspect-[16/9] sm:max-h-[68dvh]"
+    : "aspect-[16/10]";
 
   return (
-    <div
-      className={`relative h-full w-full overflow-hidden ${className}`}
-      aria-hidden={exiting ? true : undefined}
-      style={{
-        // A film edit, not a swap: the leaving frame drifts away as the new one arrives.
-        ["--mem-dx" as string]: `${direction * 2.4}%`,
-        animation: reduced
-          ? undefined
-          : exiting
-            ? "memory-out 0.85s var(--ease-cine) both"
-            : "memory-in 1.25s var(--ease-cine) both",
-      }}
-    >
-      {kind === "video" && memory.video ? (
-        <MemoryVideo
-          src={memory.video}
-          {...(memory.src ? { poster: memory.src } : {})}
-          title={memory.title}
-          autoPlay={memory.autoPlay ?? true}
-          loop={memory.loop ?? true}
-          fullscreen={fullscreen}
-          className="absolute inset-0 h-full w-full"
-        />
-      ) : null}
-
-      {(kind === "image" || kind === "final") && memory.src ? (
-        <img
-          src={memory.src}
-          alt={memory.alt ?? memory.title}
-          loading="lazy"
-          decoding="async"
-          className={`absolute inset-0 h-full w-full ${
-            fullscreen ? "object-contain sm:object-cover" : "object-cover"
-          }`}
-          style={{
-            animation: reduced
-              ? undefined
-              : `ken-burns ${kind === "final" ? "34s" : "26s"} ease-in-out infinite alternate`,
-          }}
-        />
-      ) : null}
-
-      {/* Narrative interludes have no picture — only moonlight and words. */}
-      {!hasMedia ? (
-        <>
-          <span aria-hidden className="fog-layer" />
-          <span
-            aria-hidden
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(58% 46% at 50% 46%, oklch(0.86 0.05 88 / 0.12), transparent 72%)",
-            }}
-          />
-        </>
-      ) : null}
-
-      {hasMedia ? <span aria-hidden className="memory-veil" /> : null}
-      {kind === "final" && !reduced ? <span aria-hidden className="memory-glow" /> : null}
-
-      <figure
-        className={`absolute inset-x-0 ${
-          narrative && !hasMedia
-            ? "top-1/2 -translate-y-1/2 px-6 text-center sm:px-16"
-            : "bottom-0 px-6 pb-8 text-center sm:px-12 sm:pb-12"
-        }`}
+    <Reveal key={memory.title} className={className}>
+      <div
+        // The crossfade lives on a wrapper so the framing never shifts.
+        style={{
+          animation: reduced ? undefined : `memory-cross 1.1s var(--ease-cine) both`,
+        }}
       >
-        <figcaption>
-          {memory.when ? (
-            <p
-              className="text-[0.55rem] tracking-[0.45em] text-primary/85 uppercase"
-              style={{
-                animation: reduced ? undefined : "caption-rise 1s var(--ease-cine) 0.35s both",
-              }}
-            >
-              {memory.when}
-            </p>
+        <figure
+          className={
+            kind === "text"
+              ? "relative"
+              : kind === "final"
+                ? "glass-panel relative overflow-hidden rounded-sm border-primary/30"
+                : "glass-panel relative overflow-hidden rounded-sm"
+          }
+        >
+          {kind === "final" && !reduced ? <span aria-hidden className="memory-glow" /> : null}
+
+          {kind === "video" && memory.video ? (
+            <MemoryVideo
+              src={memory.video}
+              {...(memory.src ? { poster: memory.src } : {})}
+              title={memory.title}
+              className={frame}
+            />
           ) : null}
-          <h3
-            className={`text-gold mt-3 font-display tracking-[0.18em] uppercase ${
-              kind === "final"
-                ? "text-xl sm:text-3xl"
-                : fullscreen
-                  ? "text-lg sm:text-2xl"
-                  : "text-lg sm:text-xl"
-            }`}
-            style={{
-              animation: reduced ? undefined : "caption-rise 1.1s var(--ease-cine) 0.55s both",
-            }}
+
+          {(kind === "image" || kind === "final") && memory.src ? (
+            <div className={`relative overflow-hidden ${frame}`}>
+              <img
+                src={memory.src}
+                alt={memory.alt ?? memory.title}
+                loading="lazy"
+                decoding="async"
+                className={
+                  fullscreen ? "h-full w-full object-contain" : "h-full w-full object-cover"
+                }
+                style={{
+                  animation: reduced
+                    ? undefined
+                    : `ken-burns ${kind === "final" ? "30s" : "22s"} ease-in-out infinite alternate`,
+                }}
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(to_top,oklch(0.07_0.03_265/0.92),oklch(0.07_0.03_265/0.18)_60%,transparent)]" />
+            </div>
+          ) : null}
+
+          <figcaption
+            className={
+              narrative
+                ? "relative px-5 py-10 text-center sm:px-12 sm:py-14"
+                : "relative px-5 py-4 text-center sm:px-7 sm:py-5"
+            }
           >
-            {memory.title}
-          </h3>
-          <span
-            aria-hidden
-            className="mx-auto mt-4 block h-px w-20 bg-[linear-gradient(to_right,transparent,oklch(0.85_0.14_85/0.75),transparent)]"
-            style={{
-              animation: reduced ? undefined : "caption-rise 1.1s var(--ease-cine) 0.7s both",
-            }}
-          />
-          <p
-            className={`mx-auto leading-relaxed text-ivory/90 italic ${
-              narrative && !hasMedia
-                ? "mt-6 max-w-xl text-base sm:text-xl"
-                : "mt-4 max-w-lg text-sm sm:text-base"
-            }`}
-            style={{
-              animation: reduced ? undefined : "caption-rise 1.2s var(--ease-cine) 0.85s both",
-            }}
-          >
-            {memory.caption}
-          </p>
-        </figcaption>
-      </figure>
-    </div>
+            {memory.when ? (
+              <p className="text-[0.55rem] tracking-[0.4em] text-primary uppercase">
+                {memory.when}
+              </p>
+            ) : null}
+            <h3
+              className={`text-gold mt-2 font-display tracking-[0.16em] uppercase ${
+                kind === "final" ? "text-xl sm:text-3xl" : "text-lg sm:text-xl"
+              }`}
+            >
+              {memory.title}
+            </h3>
+            {kind === "final" ? (
+              <span
+                aria-hidden
+                className="mx-auto mt-4 block h-px w-24 bg-[linear-gradient(to_right,transparent,oklch(0.85_0.14_85/0.9),transparent)]"
+              />
+            ) : null}
+            <p
+              className={`leading-relaxed text-ivory/90 italic ${
+                narrative
+                  ? "mx-auto mt-5 max-w-xl text-base sm:text-xl"
+                  : "mt-3 text-sm sm:text-base"
+              }`}
+            >
+              {memory.caption}
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    </Reveal>
   );
 }
