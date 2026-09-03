@@ -29,20 +29,17 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
   const touchX = useRef<number | null>(null);
   const cut = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const go = useCallback(
-    (next: number) => {
-      const target = ((next % MEMORIES.length) + MEMORIES.length) % MEMORIES.length;
-      setI((current) => {
-        if (target === current) return current;
-        setDir(target > current || (current === MEMORIES.length - 1 && target === 0) ? 1 : -1);
-        setLeaving(current);
-        if (cut.current) clearTimeout(cut.current);
-        cut.current = setTimeout(() => setLeaving(null), CUT_MS);
-        return target;
-      });
-    },
-    [],
-  );
+  const go = useCallback((next: number) => {
+    const target = ((next % MEMORIES.length) + MEMORIES.length) % MEMORIES.length;
+    setI((current) => {
+      if (target === current) return current;
+      setDir(target > current || (current === MEMORIES.length - 1 && target === 0) ? 1 : -1);
+      setLeaving(current);
+      if (cut.current) clearTimeout(cut.current);
+      cut.current = setTimeout(() => setLeaving(null), CUT_MS);
+      return target;
+    });
+  }, []);
 
   useEffect(() => () => (cut.current ? clearTimeout(cut.current) : undefined), []);
 
