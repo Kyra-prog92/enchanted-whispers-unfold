@@ -11,9 +11,19 @@ import observatory from "@/assets/observatory.jpg";
  * The sequence is deliberately uneven: images, a narrative interlude, and a
  * closing reveal, so the walk feels like a story rather than a gallery.
  *
- * To add a video memory, drop the file in the project and append:
- *   { kind: "video", video: myClip, src: posterImage, title: "...", caption: "..." }
+ * To add a video memory, drop an mp4/webm in src/assets, import it, and append
+ * an entry anywhere in this sequence — it plays inside the same cinematic frame:
+ *   {
+ *     kind: "video",
+ *     video: myClip,        // the film
+ *     src: posterImage,     // held while the film loads
+ *     autoPlay: true,       // muted autoplay, skipped under reduced motion
+ *     loop: true,
+ *     title: "...", when: "...", caption: "...",
+ *   }
+ * No invented video file ships here: the capability waits for a real asset.
  */
+
 export const GARDEN_MEMORIES: Memory[] = [
   {
     kind: "image",
