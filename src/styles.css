@@ -612,3 +612,97 @@
     animation: none;
   }
 }
+
+/* --- Cinematic memory film: entrances, exits, captions and light edits --- */
+
+@keyframes memory-in {
+  from {
+    opacity: 0;
+    transform: scale(1.07) translate3d(var(--mem-dx, 2%), 0, 0);
+    filter: blur(16px) brightness(1.22);
+  }
+  60% {
+    filter: blur(1px) brightness(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes memory-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+    filter: blur(0) brightness(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05) translate3d(calc(var(--mem-dx, 2%) * -1), 0, 0);
+    filter: blur(18px) brightness(0.8);
+  }
+}
+
+@keyframes caption-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes edit-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%);
+  }
+  35% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(60%);
+  }
+}
+
+/* A pass of moonlight across the cut — the film edit, not a slide. */
+@utility film-sweep {
+  position: absolute;
+  inset: -20% -30%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    oklch(0.95 0.06 88 / 0.18) 50%,
+    transparent 65%
+  );
+  animation: edit-sweep 1.2s var(--ease-cine) both;
+}
+
+/* The window into another world: depth at the edges, light at the top. */
+@utility memory-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 60% at 50% 28%, oklch(0.92 0.07 88 / 0.1), transparent 72%),
+    linear-gradient(
+      to top,
+      oklch(0.05 0.02 265 / 0.94),
+      oklch(0.05 0.02 265 / 0.34) 46%,
+      oklch(0.05 0.02 265 / 0.1) 70%,
+      oklch(0.05 0.02 265 / 0.42)
+    ),
+    radial-gradient(120% 100% at 50% 50%, transparent 52%, oklch(0.04 0.02 265 / 0.7));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-sweep {
+    animation: none;
+    opacity: 0;
+  }
+}
