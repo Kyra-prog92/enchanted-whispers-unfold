@@ -170,7 +170,8 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
           type="button"
           onClick={() => {
             setAuto(false);
-            last ? go(0) : go(i + 1);
+            if (last) go(0);
+            else go(i + 1);
           }}
           aria-label={last ? "Walk the memories again" : "Next memory"}
           className="min-h-11 px-2 text-muted-foreground/70 transition-colors hover:text-primary focus-visible:text-primary"
