@@ -24,7 +24,6 @@ import observatory from "@/assets/observatory.jpg";
  * No invented video file ships here: the capability waits for a real asset.
  */
 
-
 export const GARDEN_MEMORIES: Memory[] = [
   {
     kind: "image",
