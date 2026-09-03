@@ -199,7 +199,6 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
           </button>
         ) : null}
       </div>
-
     </div>
   );
 
