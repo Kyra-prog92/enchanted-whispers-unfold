@@ -177,8 +177,9 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
         </button>
       </div>
 
-      {!reduced ? (
-        <div className="mt-1 flex items-center justify-center gap-4">
+      <div className="mt-1 flex items-center justify-center gap-4">
+        {/* Auto-progression is offered only when motion is welcome. */}
+        {!reduced ? (
           <button
             type="button"
             onClick={() => setAuto((a) => !a)}
@@ -187,17 +188,18 @@ export function MemoryGarden({ onEnter }: { onEnter?: (() => void) | undefined }
           >
             {auto ? "Pause the film ❙❙" : "Let the film play ▷"}
           </button>
-          {!fullscreen ? (
-            <button
-              type="button"
-              onClick={() => setImmersive(true)}
-              className="min-h-11 text-[0.5rem] tracking-[0.35em] text-muted-foreground/60 uppercase transition-colors hover:text-primary focus-visible:text-primary"
-            >
-              Step inside this moment
-            </button>
-          ) : null}
-        </div>
-      ) : null}
+        ) : null}
+        {!fullscreen ? (
+          <button
+            type="button"
+            onClick={() => setImmersive(true)}
+            className="min-h-11 text-[0.5rem] tracking-[0.35em] text-muted-foreground/60 uppercase transition-colors hover:text-primary focus-visible:text-primary"
+          >
+            Step inside this moment
+          </button>
+        ) : null}
+      </div>
+
     </div>
   );
 
