@@ -66,13 +66,26 @@ export function Forever({ onEnter }: { onEnter?: (() => void) | undefined }) {
           className="absolute inset-0 flex flex-col items-center justify-center px-5 pb-32 text-center transition-opacity duration-[2000ms]"
           style={{ opacity: Math.min(Math.max((p - 0.3) * 3, 0), 1) }}
         >
-          <p className="script-title text-2xl sm:text-4xl">Our story never truly ends…</p>
-          <h2 className="text-gold mt-5 text-xl leading-tight tracking-[0.14em] uppercase sm:text-3xl">
+          <p
+            className="script-title text-2xl sm:text-4xl"
+            style={{ animation: "slow-breathe 3.4s var(--ease-cine) 0.2s both" }}
+          >
+            Our story never truly ends…
+          </p>
+          <h2
+            className="text-gold mt-5 text-xl leading-tight tracking-[0.14em] uppercase sm:text-3xl"
+            style={{ animation: "slow-breathe 3.8s var(--ease-cine) 1.6s both" }}
+          >
             Some stories end.
             <br />
             Ours simply found forever.
           </h2>
-          <p className="script-title mt-5 text-3xl sm:text-4xl">Forever Begins Here</p>
+          <p
+            className="script-title mt-5 text-3xl sm:text-4xl"
+            style={{ animation: "slow-breathe 4.4s var(--ease-cine) 3.4s both" }}
+          >
+            Forever Begins Here
+          </p>
         </div>
       </div>
     </section>

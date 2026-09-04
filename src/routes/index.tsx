@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "@/components/magic/usePrefersReducedMotion";
 import { Intro } from "@/components/magic/Intro";
 import { CursorMagic } from "@/components/magic/CursorMagic";
 import { ChapterNav } from "@/components/magic/ChapterNav";
@@ -49,10 +50,39 @@ function Index() {
     };
   }, [entered]);
 
-  const go = useCallback((i: number) => {
-    setStep(((i % CHAPTERS.length) + CHAPTERS.length) % CHAPTERS.length);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const reduced = usePrefersReducedMotion();
+  const [cutting, setCutting] = useState(false);
+  const cutTimer = useRef<number | null>(null);
+
+  // Chapters are cut like film: the light dims across the frame, the next scene is
+  // already standing there when it lifts. Never a page change.
+  const go = useCallback(
+    (i: number) => {
+      const next = ((i % CHAPTERS.length) + CHAPTERS.length) % CHAPTERS.length;
+      if (cutTimer.current) window.clearTimeout(cutTimer.current);
+      const land = () => {
+        setStep(next);
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      };
+      if (reduced) {
+        land();
+        return;
+      }
+      setCutting(true);
+      cutTimer.current = window.setTimeout(() => {
+        land();
+        cutTimer.current = window.setTimeout(() => setCutting(false), 520);
+      }, 620);
+    },
+    [reduced],
+  );
+
+  useEffect(
+    () => () => {
+      if (cutTimer.current) window.clearTimeout(cutTimer.current);
+    },
+    [],
+  );
 
   // Keyboard navigation: arrows walk the journey once the kingdom is entered.
   useEffect(() => {
@@ -97,9 +127,23 @@ function Index() {
 
       {entered ? <ChapterNav current={step} onJump={go} /> : null}
 
-      <div key={chapter.id} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
+      <div
+        key={chapter.id}
+        style={{
+          animation: reduced ? undefined : "chapter-in 1.7s var(--ease-cine) both",
+        }}
+      >
         {chapter.render()}
       </div>
+
+      {/* The cut between chapters: the frame dims through gold, never through a page. */}
+      {cutting ? (
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-[88] bg-[radial-gradient(60%_50%_at_50%_50%,oklch(0.86_0.13_85/0.22),oklch(0.05_0.02_265/0.97)_70%)]"
+          style={{ animation: "chapter-veil 1.15s var(--ease-cine) both" }}
+        />
+      ) : null}
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
       {entered ? (

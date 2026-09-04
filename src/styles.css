@@ -612,3 +612,42 @@
     animation: none;
   }
 }
+
+/* --- Chapter edits: one film, cut with light rather than page changes --- */
+
+@keyframes chapter-veil {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes chapter-in {
+  from {
+    opacity: 0;
+    transform: scale(1.035) translate3d(0, 1.2%, 0);
+    filter: blur(10px) brightness(1.12);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes slow-breathe {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    letter-spacing: 0.34em;
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
