@@ -57,32 +57,32 @@ export const CHAPTERS: Chapter[] = [
   {
     id: "gates",
     label: "I · Gates",
-    nextLabel: "Enter the Letter Room",
+    nextLabel: "Cross the courtyard to the Letter Room",
     render: () => <GatesChapter />,
   },
   {
     id: "letter",
     label: "II · Letter",
-    nextLabel: "Walk into the Memory Garden",
+    nextLabel: "Step outside into the Memory Garden",
     render: () => <LetterRoom onEnter={undefined} />,
   },
   {
     id: "garden",
     label: "III · Garden",
-    nextLabel: "Follow us to the Wishing Tree",
+    nextLabel: "Take the garden path to the Wishing Tree",
     render: () => <MemoryGarden onEnter={undefined} />,
   },
   {
     id: "wish",
     label: "IV · Wish",
-    nextLabel: "Open the Hidden Realms",
+    nextLabel: "Take the path the tree opened",
     render: () => <WishTree onEnter={undefined} />,
   },
   {
     id: "realms",
-    label: "Secret · Hidden Realms",
+    label: "Interlude · Hidden Realms",
     secret: true,
-    nextLabel: "Step into the Promise Chamber",
+    nextLabel: "Follow the light to the Promise Chamber",
     render: () => <HiddenRealms />,
   },
   {
@@ -99,7 +99,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     id: "behind",
-    label: "VII · Behind",
+    label: "Epilogue · Behind the Magic",
     nextLabel: "Begin our story again",
     render: () => <BehindTheMagic />,
   },
