@@ -50,10 +50,39 @@ function Index() {
     };
   }, [entered]);
 
-  const go = useCallback((i: number) => {
-    setStep(((i % CHAPTERS.length) + CHAPTERS.length) % CHAPTERS.length);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const reduced = usePrefersReducedMotion();
+  const [cutting, setCutting] = useState(false);
+  const cutTimer = useRef<number | null>(null);
+
+  // Chapters are cut like film: the light dims across the frame, the next scene is
+  // already standing there when it lifts. Never a page change.
+  const go = useCallback(
+    (i: number) => {
+      const next = ((i % CHAPTERS.length) + CHAPTERS.length) % CHAPTERS.length;
+      if (cutTimer.current) window.clearTimeout(cutTimer.current);
+      const land = () => {
+        setStep(next);
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      };
+      if (reduced) {
+        land();
+        return;
+      }
+      setCutting(true);
+      cutTimer.current = window.setTimeout(() => {
+        land();
+        cutTimer.current = window.setTimeout(() => setCutting(false), 520);
+      }, 620);
+    },
+    [reduced],
+  );
+
+  useEffect(
+    () => () => {
+      if (cutTimer.current) window.clearTimeout(cutTimer.current);
+    },
+    [],
+  );
 
   // Keyboard navigation: arrows walk the journey once the kingdom is entered.
   useEffect(() => {
