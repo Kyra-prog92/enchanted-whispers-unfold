@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "@/components/magic/usePrefersReducedMotion";
 import { Intro } from "@/components/magic/Intro";
 import { CursorMagic } from "@/components/magic/CursorMagic";
 import { ChapterNav } from "@/components/magic/ChapterNav";
