@@ -56,7 +56,8 @@ export function HiddenRealms() {
       id="realms"
       className="vignette relative min-h-dvh overflow-hidden pt-16 pb-36 sm:pt-20 sm:pb-40"
     >
-      <ParticleField variant="dust" count={34} />
+      <span aria-hidden className="fog-layer" />
+      <ParticleField variant="dust" count={30} />
       <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
         <Reveal className="text-center">
           <p className="font-display text-[0.6rem] tracking-[0.5em] text-primary uppercase">
