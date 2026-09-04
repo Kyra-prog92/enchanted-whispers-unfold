@@ -127,9 +127,23 @@ function Index() {
 
       {entered ? <ChapterNav current={step} onJump={go} /> : null}
 
-      <div key={chapter.id} style={{ animation: "rise-in 1.4s var(--ease-cine) both" }}>
+      <div
+        key={chapter.id}
+        style={{
+          animation: reduced ? undefined : "chapter-in 1.7s var(--ease-cine) both",
+        }}
+      >
         {chapter.render()}
       </div>
+
+      {/* The cut between chapters: the frame dims through gold, never through a page. */}
+      {cutting ? (
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-[88] bg-[radial-gradient(60%_50%_at_50%_50%,oklch(0.86_0.13_85/0.22),oklch(0.05_0.02_265/0.97)_70%)]"
+          style={{ animation: "chapter-veil 1.15s var(--ease-cine) both" }}
+        />
+      ) : null}
 
       {/* Chapter transport — the journey advances by choice, never by scrolling. */}
       {entered ? (
