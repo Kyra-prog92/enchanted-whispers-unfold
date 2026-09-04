@@ -88,6 +88,9 @@ export function Scene({
         <div className="godrays pointer-events-none absolute -top-1/3 left-0 h-[160%] w-full opacity-70" />
       ) : null}
 
+      {/* Low mist keeps every scene in the same weather. */}
+      <span aria-hidden className="fog-layer" />
+
       <ParticleField variant={particles} count={particleCount} />
 
       <div
