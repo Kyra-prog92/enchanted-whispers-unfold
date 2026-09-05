@@ -291,10 +291,7 @@ Where applicable, their original creators and licenses should be respected. Any 
 
 ## ✧ Author
 
-**Kyra-prog92
-
-[Master Prompt Enchanted Ever After.docx](https://github.com/user-attachments/files/31862351/Master.Prompt.Enchanted.Ever.After.docx)
-**
+**Kyra-prog92**
 
 A personal exploration of frontend engineering, interactive design, and digital storytelling.
 
